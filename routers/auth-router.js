@@ -9,6 +9,7 @@ router.post('/login', userController.login)
 router.get('/refresh', userController.refresh)
 router.post('/logout', userController.logout)
 router.post('/update', userController.update)
+router.get('/service', userController.serviceFunc)
 
 router.get('/clear-users', userController.clearUsers)
 

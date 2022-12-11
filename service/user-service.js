@@ -1,9 +1,19 @@
 const UserModel = require('../models/user-model')
+const RoleModel = require('../models/role-model')
 const bcrypt = require('bcryptjs');
 const tokenService = require('../service/token-service')
 const ApiError = require('../exceptions/api-error');
 
 module.exports = {
+    async serviceFunc(req, res) {
+        // let defaultUser = new RoleModel()
+        // let adminUser = new RoleModel({ value: 'admin' })
+        // await defaultUser.save()
+        // await adminUser.save()
+        // console.log(adminUser, defaultUser);
+        // res.json([adminUser, defaultUser])
+        res.json(await RoleModel.find({}))
+    },
     async clearUsers() {
         console.log(
             await UserModel.deleteMany({})

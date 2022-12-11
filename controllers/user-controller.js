@@ -1,6 +1,13 @@
 const UserService = require('../service/user-service')
 
 module.exports = {
+    async serviceFunc(req, res, next) {
+        try {
+            UserService.serviceFunc(req, res)
+        } catch (error) {
+            console.log(error);
+        }
+    },
     async clearUsers() {
         try {
             UserService.clearUsers()
