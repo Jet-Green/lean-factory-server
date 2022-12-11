@@ -5,6 +5,9 @@ const cors = require('cors')
 const app = express()
 const mongoose = require('mongoose')
 const cookieParser = require('cookie-parser')
+const errorMiddleware = require('./middleware/error-middleware')
+
+const authRouter = require('./routers/auth-router')
 
 app.use(cors({
     origin: [process.env.CLIENT_URL],
@@ -14,11 +17,12 @@ app.use(cors({
 app.use(express.json())
 app.use(cookieParser())
 
+// routes
+app.use('/auth', authRouter)
 
 
-
-
-
+// use error middleware last
+app.use(errorMiddleware)
 
 function startServer() {
     try {
