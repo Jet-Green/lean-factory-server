@@ -15,9 +15,8 @@ module.exports = {
         res.json(await RoleModel.find({}))
     },
     async clearUsers() {
-        console.log(
-            await UserModel.deleteMany({})
-        );
+        return await UserModel.deleteMany({})
+
     },
     async registration(email, password, fullname) {
         const candidate = await UserModel.findOne({ email })
@@ -26,7 +25,8 @@ module.exports = {
         }
 
         const hashPassword = await bcrypt.hash(password, 3)
-        const user = await UserModel.create({ email, password: hashPassword, fullname })
+        const defaultUserRole = await RoleModel.findOne({ value: 'user' })
+        const user = await UserModel.create({ email, password: hashPassword, fullname, roles: [defaultUserRole.value] })
 
         const tokens = tokenService.generateTokens({ email, hashPassword, _id: user._id })
         await tokenService.saveToken(user._id, tokens.refreshToken);
@@ -50,7 +50,6 @@ module.exports = {
         }
 
         const tokens = tokenService.generateTokens({ email, password: user.password, _id: user._id })
-
         await tokenService.saveToken(user._id, tokens.refreshToken);
         return {
             ...tokens,

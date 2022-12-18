@@ -1,4 +1,6 @@
 const UserService = require('../service/user-service')
+const { validationResult } = require('express-validator')
+const ApiError = require('../exceptions/api-error');
 
 module.exports = {
     async serviceFunc(req, res, next) {
@@ -8,15 +10,19 @@ module.exports = {
             console.log(error);
         }
     },
-    async clearUsers() {
+    async clearUsers(req, res, next) {
         try {
-            UserService.clearUsers()
+            res.json(UserService.clearUsers())
         } catch (error) {
 
         }
     },
     async registration(req, res, next) {
         try {
+            const errors = validationResult(req)
+            if (!errors.isEmpty()) {
+                throw ApiError.BadRequest('Ошибка при регистрации', errors)
+            }
             const { email, password, fullname } = req.body;
             const userData = await UserService.registration(email, password, fullname)
 
