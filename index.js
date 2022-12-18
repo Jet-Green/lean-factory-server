@@ -7,7 +7,9 @@ const mongoose = require('mongoose')
 const cookieParser = require('cookie-parser')
 const errorMiddleware = require('./middleware/error-middleware')
 
+// routers
 const authRouter = require('./routers/auth-router')
+const companyRouter = require('./routers/company-router')
 
 app.use(cors({
     origin: [process.env.CLIENT_URL],
@@ -19,6 +21,7 @@ app.use(cookieParser())
 
 // routes
 app.use('/auth', authRouter)
+app.use('/company', companyRouter)
 
 
 // use error middleware last
