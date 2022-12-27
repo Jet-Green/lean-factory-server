@@ -9,10 +9,9 @@ module.exports = {
     },
     addEmpls(req, res, next) {
         try {
-            let result = companyService.addEmpls(req.body)
-            console.log(result);
-
-            res.json(result)
+            let result = companyService.addEmpls(req.body, req.query.company_id)
+            console.log(result.employees);
+            return res.json('OK')
         } catch (error) {
             next(error)
         }

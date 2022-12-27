@@ -1,4 +1,5 @@
 const UserService = require('../service/user-service')
+const CompanyService = require('../service/company-service')
 const { validationResult } = require('express-validator')
 const ApiError = require('../exceptions/api-error');
 
@@ -23,8 +24,14 @@ module.exports = {
             if (!errors.isEmpty()) {
                 throw ApiError.BadRequest('Ошибка при регистрации', errors)
             }
-            const { email, password, fullname } = req.body;
-            const userData = await UserService.registration(email, password, fullname)
+            const { email, password, fullname, company } = req.body;
+            const userData = await UserService.registration(email, password, fullname, company)
+
+            const employee = await CompanyService.createEmployee(userData)
+
+            const newCompany = await CompanyService.updateCompanyEmpl(employee)
+
+            console.log(newCompany.employees);
 
             // добавить флаг secure: true чтобы активировать https
             res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });

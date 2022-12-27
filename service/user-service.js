@@ -6,6 +6,8 @@ const ApiError = require('../exceptions/api-error');
 
 module.exports = {
     async serviceFunc(req, res) {
+        // return res.json(await RoleModel.findOneAndDelete({}))
+
         // let defaultUser = new RoleModel()
         // let adminUser = new RoleModel({ value: 'admin' })
         // await defaultUser.save()
@@ -18,7 +20,7 @@ module.exports = {
         return await UserModel.deleteMany({})
 
     },
-    async registration(email, password, fullname) {
+    async registration(email, password, fullname, company) {
         const candidate = await UserModel.findOne({ email })
         if (candidate) {
             throw ApiError.BadRequest(`Пользователь с почтой ${email} уже существует`)
@@ -26,7 +28,7 @@ module.exports = {
 
         const hashPassword = await bcrypt.hash(password, 3)
         const defaultUserRole = await RoleModel.findOne({ value: 'admin' })
-        const user = await UserModel.create({ email, password: hashPassword, fullname, roles: [defaultUserRole.value] })
+        const user = await UserModel.create({ email, password: hashPassword, fullname, roles: [defaultUserRole.value], company })
 
         const tokens = tokenService.generateTokens({ email, hashPassword, _id: user._id })
         await tokenService.saveToken(user._id, tokens.refreshToken);
