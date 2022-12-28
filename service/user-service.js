@@ -6,19 +6,23 @@ const ApiError = require('../exceptions/api-error');
 
 module.exports = {
     async serviceFunc(req, res) {
-        try {
-            // return res.json(await UserModel.findById('63ac026f2f24b30f05167f15'))
-            // return res.json(await RoleModel.findOneAndDelete({}))
+        // return res.json(await UserModel.findById('63ac026f2f24b30f05167f15'))
+        // return res.json(await RoleModel.findOneAndDelete({}))
 
-            // let defaultUser = new RoleModel()
-            // let adminUser = new RoleModel({ value: 'admin' })
-            // await defaultUser.save()
-            // await adminUser.save()
+        let defaultUser = new RoleModel()
+        let adminUser = new RoleModel({ value: 'admin' })
+        await defaultUser.save()
+        await adminUser.save()
 
-            // res.json([adminUser, defaultUser])
-        } catch (error) {
-            console.log(error);
-        }
+        res.json([adminUser, defaultUser])
+    },
+    async addRole(req, res) {
+        const role = req.query.role_value
+
+        let usr = new RoleModel({ value: role })
+        await usr.save()
+
+        res.json(usr)
     },
     async clearUsers() {
         return await UserModel.deleteMany({})
@@ -31,7 +35,7 @@ module.exports = {
         }
 
         const hashPassword = await bcrypt.hash(password, 3)
-        const defaultUserRole = await RoleModel.findOne({ value: 'user' })
+        const defaultUserRole = await RoleModel.findOne({ value: 'admin' })
         const user = await UserModel.create({ email, password: hashPassword, fullname, roles: [defaultUserRole.value], company })
 
         const tokens = tokenService.generateTokens({ email, hashPassword, _id: user._id })

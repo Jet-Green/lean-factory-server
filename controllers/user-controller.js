@@ -11,6 +11,13 @@ module.exports = {
             console.log(error);
         }
     },
+    addRole(req, res, next) {
+        try {
+            UserService.addRole(req, res)
+        } catch (error) {
+            console.log(error);
+        }
+    },
     async clearUsers(req, res, next) {
         try {
             res.json(UserService.clearUsers())
