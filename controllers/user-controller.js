@@ -31,8 +31,6 @@ module.exports = {
 
             const newCompany = await CompanyService.updateCompanyEmpl(employee)
 
-            console.log(newCompany.employees);
-
             // добавить флаг secure: true чтобы активировать https
             res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
             return res.json(userData)

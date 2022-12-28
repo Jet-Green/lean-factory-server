@@ -4,13 +4,12 @@ module.exports = {
     serviceFunc(req, res, next) {
         companyService.serviceFunc(req, res, next)
     },
-    getCompany(req, res, next) {
-        return res.json(companyService.getCompany())
+    async getCompany(req, res, next) {
+        return res.json(await companyService.getCompany())
     },
     addEmpls(req, res, next) {
         try {
             let result = companyService.addEmpls(req.body, req.query.company_id)
-            console.log(result.employees);
             return res.json('OK')
         } catch (error) {
             next(error)

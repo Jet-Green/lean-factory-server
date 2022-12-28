@@ -13,7 +13,8 @@ module.exports = {
         return res.json('нет такого пользователя')
     },
     async getCompany() {
-        return await CompanyModel.find({ identifier: 0 })
+        const c = await CompanyModel.findOne({ identifier: "0" })
+        return c
     },
     async addEmpls(empls, companyIdentifier = 0) {
         for (let e of empls) {
@@ -45,7 +46,6 @@ module.exports = {
                 Company.employees[i] = newVal
             }
         }
-        // console.log(Company);
         return Company.save()
     }
 }
