@@ -6,15 +6,19 @@ const ApiError = require('../exceptions/api-error');
 
 module.exports = {
     async serviceFunc(req, res) {
-        return res.json(await UserModel.findById('63ac026f2f24b30f05167f15'))
-        // return res.json(await RoleModel.findOneAndDelete({}))
+        try {
+            // return res.json(await UserModel.findById('63ac026f2f24b30f05167f15'))
+            // return res.json(await RoleModel.findOneAndDelete({}))
 
-        // let defaultUser = new RoleModel()
-        // let adminUser = new RoleModel({ value: 'admin' })
-        // await defaultUser.save()
-        // await adminUser.save()
-        // console.log(adminUser, defaultUser);
-        // res.json([adminUser, defaultUser])
+            // let defaultUser = new RoleModel()
+            // let adminUser = new RoleModel({ value: 'admin' })
+            // await defaultUser.save()
+            // await adminUser.save()
+
+            // res.json([adminUser, defaultUser])
+        } catch (error) {
+            console.log(error);
+        }
     },
     async clearUsers() {
         return await UserModel.deleteMany({})
