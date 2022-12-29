@@ -32,11 +32,14 @@ module.exports = {
                 throw ApiError.BadRequest('Ошибка при регистрации', errors)
             }
             const { email, password, fullname, company } = req.body;
+
             const userData = await UserService.registration(email, password, fullname, company)
 
-            const employee = await CompanyService.createEmployee(userData)
+            if (company > "-1") {
+                const employee = await CompanyService.createEmployee(userData)
 
-            const newCompany = await CompanyService.updateCompanyEmpl(employee)
+                const updatedCompany = await CompanyService.updateCompanyEmpl(employee)
+            }
 
             // добавить флаг secure: true чтобы активировать https
             res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });

@@ -12,8 +12,8 @@ module.exports = {
         }
         return res.json('нет такого пользователя')
     },
-    async getCompany() {
-        const c = await CompanyModel.findOne({ identifier: "0" })
+    async getCompany(id) {
+        const c = await CompanyModel.findOne({ identifier: id })
         return c
     },
     async addEmpls(empls, companyIdentifier = 0) {

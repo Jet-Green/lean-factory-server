@@ -5,7 +5,7 @@ module.exports = {
         companyService.serviceFunc(req, res, next)
     },
     async getCompany(req, res, next) {
-        return res.json(await companyService.getCompany())
+        return res.json(await companyService.getCompany(req.query.company_id))
     },
     addEmpls(req, res, next) {
         try {
