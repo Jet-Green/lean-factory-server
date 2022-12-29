@@ -14,5 +14,12 @@ module.exports = {
         } catch (error) {
             next(error)
         }
+    },
+    startApp() {
+        try {
+            companyService.startApp()
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
