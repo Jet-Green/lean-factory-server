@@ -20,7 +20,6 @@ module.exports = {
             let result = await companyService.deleteEmpl(req.body)
             return res.json(result)
         } catch (error) {
-            console.log(error);
             next(error)
         }
     },
@@ -29,7 +28,6 @@ module.exports = {
             let result = await companyService.updateEmpl(req.body)
             return res.json(result)
         } catch (error) {
-            console.log(error);
             next(error)
         }
     },
