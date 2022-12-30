@@ -53,6 +53,9 @@ module.exports = {
 
         return CompanyModel.findOneAndUpdate({ identifier: 0 }, { $set: { employees: newEmpls } })
     },
+    async deleteEmpl(empl_company) {
+        return CompanyModel.findOneAndUpdate({ identifier: empl_company.company }, { $pull: { employees: { email: empl_company.email } } })
+    },
     createEmployee(userData) {
         const e = { email: userData.user.email, isConfirmed: true, user: userData.user }
         return EmplModel.create(e)
