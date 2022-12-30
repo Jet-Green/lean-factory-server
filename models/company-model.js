@@ -5,6 +5,7 @@ const CompanySchema = new Schema({
     companyName: { type: String, required: true },
     employees: {
         type: [Object], required: true
-    }
+    },
+    emplsWithPlace: { type: [Object], required: true }
 })
 module.exports = model('Company', CompanySchema);
