@@ -27,7 +27,7 @@ module.exports = {
 
         const adminUser = await UserModel.findOne({ email: ADMIN_EMAIL })
         if (adminUser) {
-            await CompanyModel.create({ identifier: 0, companyName: 'Глазов Молоко', employees: [{ email: ADMIN_EMAIL, isConfirmed: true, user: adminUser }] })
+            await CompanyModel.create({ identifier: 0, companyName: 'Глазов Молоко', employees: [{ _id: '-12313489666545422vxdf', email: ADMIN_EMAIL, isConfirmed: true, user: adminUser }] })
         }
 
 
@@ -55,6 +55,29 @@ module.exports = {
     },
     async deleteEmpl(empl_company) {
         return CompanyModel.findOneAndUpdate({ identifier: empl_company.company }, { $pull: { employees: { email: empl_company.email } } })
+    },
+    async updateEmpl(empl_company) {
+        let { employee, company } = empl_company
+        if (!employee.isConfirmed) {
+            // return CompanyModel.findOneAndUpdate({ identifier: company, 'employees.user._id': employee.user._id }, { $set: { 'employees.$': employee } })
+            let details = {
+                from: 'qbit.mailing@gmail.com',
+                to: employee.email,
+                subject: 'Приглашение в Lean Factory',
+                html: `<h2>Вас пригласили в компанию</h2> <p>Перейдите по ссылке, чтобы присоединиться</p> <a href="http://localhost:5100/registration?company_id=${company}">http://localhost:5100/registration?company_id=${company}</a>`
+            }
+
+            let r = await mailer.sendMail(details)
+        }
+        let c = await CompanyModel.findOne({ identifier: company })
+
+        for (let i = 0; i < c.employees.length; i++) {
+            if (c.employees[i]._id == employee._id) {
+                c.employees[i] = employee
+            }
+        }
+        // CompanyModel.findOneAndUpdate({ identifier: company, 'employees._id': employee._id }, { $set: { 'employees.$': employee } })
+        return c.save()
     },
     createEmployee(userData) {
         const e = { email: userData.user.email, isConfirmed: true, user: userData.user }

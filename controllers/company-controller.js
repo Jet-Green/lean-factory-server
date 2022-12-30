@@ -24,6 +24,15 @@ module.exports = {
             next(error)
         }
     },
+    async updateEmpl(req, res, next) {
+        try {
+            let result = await companyService.updateEmpl(req.body)
+            return res.json(result)
+        } catch (error) {
+            console.log(error);
+            next(error)
+        }
+    },
     startApp() {
         try {
             companyService.startApp()

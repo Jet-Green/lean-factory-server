@@ -7,6 +7,8 @@ router.get('/service', companyController.serviceFunc)
 router.get('/start-app', companyController.startApp)
 router.post('/add-empls', companyController.addEmpls)
 router.post('/delete-empl', companyController.deleteEmpl)
+router.post('/update-empl', companyController.updateEmpl)
+
 router.get('/get-company', companyController.getCompany)
 
 module.exports = router
