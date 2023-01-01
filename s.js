@@ -73,8 +73,10 @@ for (let d of data) {
         place: a[0],
         emplName: a[1],
         isConfirmed: false,
-        _id: data.indexOf(d) + 456522,
-        email: ''
+        // _id: data.indexOf(d) + 456522,
+        email: '',
+        roles: ['territory_resp'],
+        user: null
     })
 }
 

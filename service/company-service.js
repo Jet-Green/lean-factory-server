@@ -1,5 +1,5 @@
 const CompanyModel = require('../models/company-model')
-const EmplModel = require('../models/empl-model')
+const { EmplModel } = require('../models/empl-model')
 const UserModel = require('../models/user-model')
 const RoleModel = require('../models/role-model')
 const mailer = require('../middleware/mailer')
@@ -8,12 +8,7 @@ const UserService = require('../service/user-service')
 
 module.exports = {
     async serviceFunc(req, res, next) {
-        // return res.json(await CompanyModel.findOneAndDelete({}))
-        const adminUser = await UserModel.findOne({ email: 'admin@gmail.com' })
-        if (adminUser) {
-            return res.json(await CompanyModel.create({ identifier: 0, companyName: 'Глазов Молоко', employees: [{ email: 'admin@gmail.com', isConfirmed: true, user: adminUser }] }))
-        }
-        return res.json('нет такого пользователя')
+        return res.json(await UserModel.find({}))
     },
     async startApp() {
         let defaultUser = new RoleModel()
@@ -26,454 +21,520 @@ module.exports = {
         await UserService.registration(ADMIN_EMAIL, 'admin', 'ADMIN', '0')
 
         const adminUser = await UserModel.findOne({ email: ADMIN_EMAIL })
+
+        await EmplModel.insertMany([
+            { email: ADMIN_EMAIL, isConfirmed: true, user: adminUser, roles: ['admin'] },
+            {
+                place: 'Участок очистки сточных вод',
+                emplName: 'Волков Н.А.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Усреднитель',
+                emplName: 'Волков Н.А.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Холодильник',
+                emplName: 'Гаврилова С.С.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Материальный склад № 7',
+                emplName: 'Васильченко С.В.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Токарная мастерская',
+                emplName: 'Ведерников В.И.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Трансформаторная подстанция ТП-15',
+                emplName: 'Казанцев А.В.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Раздевалка АХС',
+                emplName: 'Вершинин А.С.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Гараж легковых автомобилей',
+                emplName: 'Абуткин Р.Ш.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Помещение для тех.обслуживания',
+                emplName: 'Абуткин Р.Ш.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Материальный склад № 8',
+                emplName: 'Васильченко С.В.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Трансформаторная подстанция ТП-47',
+                emplName: 'Казанцев А.В.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Материальный склад',
+                emplName: 'Васильченко С.В.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Диспетчерская',
+                emplName: 'Абуткин Р.Ш.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Материальный склад № 5',
+                emplName: 'Васильченко С.В.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Помещение прачечной',
+                emplName: 'Ведерников В.И.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Тепловой пункт',
+                emplName: 'Ведерников В.И.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Склад готовой продукции',
+                emplName: 'Гаврилова С.С.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Железный склад',
+                emplName: 'Гаврилова С.С.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Бетонный склад',
+                emplName: 'Гаврилова С.С.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Градирни',
+                emplName: 'Ведерников В.И.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Трансформаторная подстанция РП-4',
+                emplName: 'Казанцев А.В.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Здание распредпункта',
+                emplName: 'Ведерников В.И.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Воздуходувная компрессорная',
+                emplName: 'Ведерников В.И.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Склад СП ГПК СОМ',
+                emplName: 'Чинюк Э.В.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Компрессорная АХУ',
+                emplName: 'Ведерников В.И.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Электрощитовая к участку ледяной воды',
+                emplName: 'Казанцев А.В.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Участок по производству СП',
+                emplName: 'Чинюк Э.В.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Теплогазогенераторная',
+                emplName: 'Савин П. В.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Помещение ВВУ',
+                emplName: 'Чинюк Э.В.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Отделение баромембранных технологий',
+                emplName: 'Чинюк Э.В.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Водоподготовка СИП №3',
+                emplName: 'Чинюк Э.В.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Отделение хранения сыворотки',
+                emplName: 'Чинюк Э.В.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Отделение хранения молока',
+                emplName: 'Чинюк Э.В.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Приемка сыворотки',
+                emplName: 'Чинюк Э.В.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Участок нормализации',
+                emplName: 'Чинюк Э.В.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Приемка молока',
+                emplName: 'Чинюк Э.В.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Здание АБК',
+                emplName: 'Вершинин А.С.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Цех по производству ЦМП и КМП №1',
+                emplName: '2',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Цех по производству ЦМП и КМП №3',
+                emplName: 'Главатских Л.Л.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Цех по производству ЦМП и КМП №4',
+                emplName: 'Главатских Л.Л.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Цех по производству ЦМП и КМП №5',
+                emplName: 'Главатских Л.Л.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'СИП-станция цех ЦМП №1',
+                emplName: '2',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Склад вспом.материалов ЦМП № 1',
+                emplName: 'Главатских Л.Л.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Склад вспом.материалов ЦМП № 2',
+                emplName: 'Главатских Л.Л.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'СИП-станция цех ЦМП № 3',
+                emplName: '4',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'СИП-станция цех ЦМП № 5',
+                emplName: 'Главатских Л.Л.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Мелкооптовый магазин',
+                emplName: 'Вершинин А.С.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Раздевалка ОСЛ',
+                emplName: 'Гаврилова С.С.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Котельная',
+                emplName: 'Савин П. В.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Помещение для шиномонтажа',
+                emplName: 'Юферев Д.А.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Склад № 3',
+                emplName: 'Юферев Д.А.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Склад № 2',
+                emplName: 'Юферев Д.А.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Склад № 1',
+                emplName: 'Васильченко С.В.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Ремонтный бокс № 3',
+                emplName: 'Юферев Д.А.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Ремонтный бокс № 2',
+                emplName: 'Юферев Д.А.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Ремонтный бокс № 1',
+                emplName: 'Юферев Д.А.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Сварочный пост',
+                emplName: 'Юферев Д.А.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Ангар для хранения автомобилей',
+                emplName: 'Абуткин Р.Ш.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Блок подсобных помещений',
+                emplName: 'Ведерников В.И.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Здание проходной',
+                emplName: 'Вершинин А.С.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Здание насосной станции',
+                emplName: 'Савин П. В.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Канализационная насосная станция',
+                emplName: 'Ведерников В.И.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            },
+            {
+                place: 'Административный корпус',
+                emplName: 'Вершинин А.С.',
+                isConfirmed: false,
+                email: '',
+                roles: ['territory_resp'],
+                user: null
+            }
+        ])
+        let empls = await EmplModel.find({})
         if (adminUser) {
             await CompanyModel.create({
                 identifier: 0,
                 companyName: 'Глазов Молоко',
-                employees: [{ _id: '-12313489666545422vxdf', email: ADMIN_EMAIL, isConfirmed: true, user: adminUser }],
-                emplsWithPlace: [
-                    {
-                        place: 'Участок очистки сточных вод',
-                        emplName: 'Волков Н.А.',
-                        isConfirmed: false,
-                        _id: 456522,
-                        email: ''
-                    },
-                    {
-                        place: 'Усреднитель',
-                        emplName: 'Волков Н.А.',
-                        isConfirmed: false,
-                        _id: 456523,
-                        email: ''
-                    },
-                    {
-                        place: 'Холодильник',
-                        emplName: 'Гаврилова С.С.',
-                        isConfirmed: false,
-                        _id: 456524,
-                        email: ''
-                    },
-                    {
-                        place: 'Материальный склад № 7',
-                        emplName: 'Васильченко С.В.',
-                        isConfirmed: false,
-                        _id: 456525,
-                        email: ''
-                    },
-                    {
-                        place: 'Токарная мастерская',
-                        emplName: 'Ведерников В.И.',
-                        isConfirmed: false,
-                        _id: 456526,
-                        email: ''
-                    },
-                    {
-                        place: 'Трансформаторная подстанция ТП-15',
-                        emplName: 'Казанцев А.В.',
-                        isConfirmed: false,
-                        _id: 456527,
-                        email: ''
-                    },
-                    {
-                        place: 'Раздевалка АХС',
-                        emplName: 'Вершинин А.С.',
-                        isConfirmed: false,
-                        _id: 456528,
-                        email: ''
-                    },
-                    {
-                        place: 'Гараж легковых автомобилей',
-                        emplName: 'Абуткин Р.Ш.',
-                        isConfirmed: false,
-                        _id: 456529,
-                        email: ''
-                    },
-                    {
-                        place: 'Помещение для тех.обслуживания',
-                        emplName: 'Абуткин Р.Ш.',
-                        isConfirmed: false,
-                        _id: 456530,
-                        email: ''
-                    },
-                    {
-                        place: 'Материальный склад № 8',
-                        emplName: 'Васильченко С.В.',
-                        isConfirmed: false,
-                        _id: 456531,
-                        email: ''
-                    },
-                    {
-                        place: 'Трансформаторная подстанция ТП-47',
-                        emplName: 'Казанцев А.В.',
-                        isConfirmed: false,
-                        _id: 456532,
-                        email: ''
-                    },
-                    {
-                        place: 'Материальный склад',
-                        emplName: 'Васильченко С.В.',
-                        isConfirmed: false,
-                        _id: 456533,
-                        email: ''
-                    },
-                    {
-                        place: 'Диспетчерская',
-                        emplName: 'Абуткин Р.Ш.',
-                        isConfirmed: false,
-                        _id: 456534,
-                        email: ''
-                    },
-                    {
-                        place: 'Материальный склад № 5',
-                        emplName: 'Васильченко С.В.',
-                        isConfirmed: false,
-                        _id: 456535,
-                        email: ''
-                    },
-                    {
-                        place: 'Помещение прачечной',
-                        emplName: 'Ведерников В.И.',
-                        isConfirmed: false,
-                        _id: 456536,
-                        email: ''
-                    },
-                    {
-                        place: 'Тепловой пункт',
-                        emplName: 'Ведерников В.И.',
-                        isConfirmed: false,
-                        _id: 456537,
-                        email: ''
-                    },
-                    {
-                        place: 'Склад готовой продукции',
-                        emplName: 'Гаврилова С.С.',
-                        isConfirmed: false,
-                        _id: 456538,
-                        email: ''
-                    },
-                    {
-                        place: 'Железный склад',
-                        emplName: 'Гаврилова С.С.',
-                        isConfirmed: false,
-                        _id: 456539,
-                        email: ''
-                    },
-                    {
-                        place: 'Бетонный склад',
-                        emplName: 'Гаврилова С.С.',
-                        isConfirmed: false,
-                        _id: 456540,
-                        email: ''
-                    },
-                    {
-                        place: 'Градирни',
-                        emplName: 'Ведерников В.И.',
-                        isConfirmed: false,
-                        _id: 456541,
-                        email: ''
-                    },
-                    {
-                        place: 'Трансформаторная подстанция РП-4',
-                        emplName: 'Казанцев А.В.',
-                        isConfirmed: false,
-                        _id: 456542,
-                        email: ''
-                    },
-                    {
-                        place: 'Здание распредпункта',
-                        emplName: 'Ведерников В.И.',
-                        isConfirmed: false,
-                        _id: 456543,
-                        email: ''
-                    },
-                    {
-                        place: 'Воздуходувная компрессорная',
-                        emplName: 'Ведерников В.И.',
-                        isConfirmed: false,
-                        _id: 456544,
-                        email: ''
-                    },
-                    {
-                        place: 'Склад СП ГПК СОМ',
-                        emplName: 'Чинюк Э.В.',
-                        isConfirmed: false,
-                        _id: 456545,
-                        email: ''
-                    },
-                    {
-                        place: 'Компрессорная АХУ',
-                        emplName: 'Ведерников В.И.',
-                        isConfirmed: false,
-                        _id: 456546,
-                        email: ''
-                    },
-                    {
-                        place: 'Электрощитовая к участку ледяной воды',
-                        emplName: 'Казанцев А.В.',
-                        isConfirmed: false,
-                        _id: 456547,
-                        email: ''
-                    },
-                    {
-                        place: 'Участок по производству СП',
-                        emplName: 'Чинюк Э.В.',
-                        isConfirmed: false,
-                        _id: 456548,
-                        email: ''
-                    },
-                    {
-                        place: 'Теплогазогенераторная',
-                        emplName: 'Савин П. В.',
-                        isConfirmed: false,
-                        _id: 456549,
-                        email: ''
-                    },
-                    {
-                        place: 'Помещение ВВУ',
-                        emplName: 'Чинюк Э.В.',
-                        isConfirmed: false,
-                        _id: 456550,
-                        email: ''
-                    },
-                    {
-                        place: 'Отделение баромембранных технологий',
-                        emplName: 'Чинюк Э.В.',
-                        isConfirmed: false,
-                        _id: 456551,
-                        email: ''
-                    },
-                    {
-                        place: 'Водоподготовка СИП №3',
-                        emplName: 'Чинюк Э.В.',
-                        isConfirmed: false,
-                        _id: 456552,
-                        email: ''
-                    },
-                    {
-                        place: 'Отделение хранения сыворотки',
-                        emplName: 'Чинюк Э.В.',
-                        isConfirmed: false,
-                        _id: 456553,
-                        email: ''
-                    },
-                    {
-                        place: 'Отделение хранения молока',
-                        emplName: 'Чинюк Э.В.',
-                        isConfirmed: false,
-                        _id: 456554,
-                        email: ''
-                    },
-                    {
-                        place: 'Приемка сыворотки',
-                        emplName: 'Чинюк Э.В.',
-                        isConfirmed: false,
-                        _id: 456555,
-                        email: ''
-                    },
-                    {
-                        place: 'Участок нормализации',
-                        emplName: 'Чинюк Э.В.',
-                        isConfirmed: false,
-                        _id: 456556,
-                        email: ''
-                    },
-                    {
-                        place: 'Приемка молока',
-                        emplName: 'Чинюк Э.В.',
-                        isConfirmed: false,
-                        _id: 456557,
-                        email: ''
-                    },
-                    {
-                        place: 'Здание АБК',
-                        emplName: 'Вершинин А.С.',
-                        isConfirmed: false,
-                        _id: 456558,
-                        email: ''
-                    },
-                    {
-                        place: 'Цех по производству ЦМП и КМП №1',
-                        emplName: '2',
-                        isConfirmed: false,
-                        _id: 456559,
-                        email: ''
-                    },
-                    {
-                        place: 'Цех по производству ЦМП и КМП №3',
-                        emplName: 'Главатских Л.Л.',
-                        isConfirmed: false,
-                        _id: 456560,
-                        email: ''
-                    },
-                    {
-                        place: 'Цех по производству ЦМП и КМП №4',
-                        emplName: 'Главатских Л.Л.',
-                        isConfirmed: false,
-                        _id: 456561,
-                        email: ''
-                    },
-                    {
-                        place: 'Цех по производству ЦМП и КМП №5',
-                        emplName: 'Главатских Л.Л.',
-                        isConfirmed: false,
-                        _id: 456562,
-                        email: ''
-                    },
-                    {
-                        place: 'СИП-станция цех ЦМП №1',
-                        emplName: '2',
-                        isConfirmed: false,
-                        _id: 456563,
-                        email: ''
-                    },
-                    {
-                        place: 'Склад вспом.материалов ЦМП № 1',
-                        emplName: 'Главатских Л.Л.',
-                        isConfirmed: false,
-                        _id: 456564,
-                        email: ''
-                    },
-                    {
-                        place: 'Склад вспом.материалов ЦМП № 2',
-                        emplName: 'Главатских Л.Л.',
-                        isConfirmed: false,
-                        _id: 456565,
-                        email: ''
-                    },
-                    {
-                        place: 'СИП-станция цех ЦМП № 3',
-                        emplName: '4',
-                        isConfirmed: false,
-                        _id: 456566,
-                        email: ''
-                    },
-                    {
-                        place: 'СИП-станция цех ЦМП № 5',
-                        emplName: 'Главатских Л.Л.',
-                        isConfirmed: false,
-                        _id: 456567,
-                        email: ''
-                    },
-                    {
-                        place: 'Мелкооптовый магазин',
-                        emplName: 'Вершинин А.С.',
-                        isConfirmed: false,
-                        _id: 456568,
-                        email: ''
-                    },
-                    {
-                        place: 'Раздевалка ОСЛ',
-                        emplName: 'Гаврилова С.С.',
-                        isConfirmed: false,
-                        _id: 456569,
-                        email: ''
-                    },
-                    {
-                        place: 'Котельная',
-                        emplName: 'Савин П. В.',
-                        isConfirmed: false,
-                        _id: 456570,
-                        email: ''
-                    },
-                    {
-                        place: 'Помещение для шиномонтажа',
-                        emplName: 'Юферев Д.А.',
-                        isConfirmed: false,
-                        _id: 456571,
-                        email: ''
-                    },
-                    {
-                        place: 'Склад № 3',
-                        emplName: 'Юферев Д.А.',
-                        isConfirmed: false,
-                        _id: 456572,
-                        email: ''
-                    },
-                    {
-                        place: 'Склад № 2',
-                        emplName: 'Юферев Д.А.',
-                        isConfirmed: false,
-                        _id: 456573,
-                        email: ''
-                    },
-                    {
-                        place: 'Склад № 1',
-                        emplName: 'Васильченко С.В.',
-                        isConfirmed: false,
-                        _id: 456574,
-                        email: ''
-                    },
-                    {
-                        place: 'Ремонтный бокс № 3',
-                        emplName: 'Юферев Д.А.',
-                        isConfirmed: false,
-                        _id: 456575,
-                        email: ''
-                    },
-                    {
-                        place: 'Ремонтный бокс № 2',
-                        emplName: 'Юферев Д.А.',
-                        isConfirmed: false,
-                        _id: 456576,
-                        email: ''
-                    },
-                    {
-                        place: 'Ремонтный бокс № 1',
-                        emplName: 'Юферев Д.А.',
-                        isConfirmed: false,
-                        _id: 456577,
-                        email: ''
-                    },
-                    {
-                        place: 'Сварочный пост',
-                        emplName: 'Юферев Д.А.',
-                        isConfirmed: false,
-                        _id: 456578,
-                        email: ''
-                    },
-                    {
-                        place: 'Ангар для хранения автомобилей',
-                        emplName: 'Абуткин Р.Ш.',
-                        isConfirmed: false,
-                        _id: 456579,
-                        email: ''
-                    },
-                    {
-                        place: 'Блок подсобных помещений',
-                        emplName: 'Ведерников В.И.',
-                        isConfirmed: false,
-                        _id: 456580,
-                        email: ''
-                    },
-                    {
-                        place: 'Здание проходной',
-                        emplName: 'Вершинин А.С.',
-                        isConfirmed: false,
-                        _id: 456581,
-                        email: ''
-                    },
-                    {
-                        place: 'Здание насосной станции',
-                        emplName: 'Савин П. В.',
-                        isConfirmed: false,
-                        _id: 456582,
-                        email: ''
-                    },
-                    {
-                        place: 'Канализационная насосная станция',
-                        emplName: 'Ведерников В.И.',
-                        isConfirmed: false,
-                        _id: 456583,
-                        email: ''
-                    },
-                    {
-                        place: 'Административный корпус',
-                        emplName: 'Вершинин А.С.',
-                        isConfirmed: false,
-                        _id: 456584,
-                        email: ''
-                    }
-                ]
+                employees: empls
             })
         }
 
@@ -533,13 +594,17 @@ module.exports = {
     async updateCompanyEmpl(newVal) {
         let email = newVal.email;
         let company = newVal.user.company;
-        delete newVal.user._id
+
         let Company = await CompanyModel.findOne({ identifier: company })
+
         for (let i = 0; i < Company.employees.length; i++) {
             if (Company.employees[i].email == email) {
-                Company.employees[i] = newVal
+                Company.employees[i].isConfirmed = true
+                Company.employees[i].user = newVal.user
+                console.log(Company.employees[i]);
             }
         }
-        return Company.save()
+
+        return await Company.save()
     }
 }

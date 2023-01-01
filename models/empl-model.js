@@ -1,8 +1,15 @@
 const { Schema, model } = require('mongoose');
 
 const EmplSchema = new Schema({
-    email: { type: String, required: true, unique: true },
+    email: { type: String, default: '' },
     isConfirmed: { type: Boolean, default: false },
-    user: { type: Object, default: null, }
+    roles: { type: Array, default: ['default_user'] },
+    emplName: String,
+    place: String,
+    user: { type: Object, default: null },
 })
-module.exports = model('Employee', EmplSchema);
+
+module.exports = {
+    EmplModel: model('Employee', EmplSchema),
+    EmplSchema
+}
