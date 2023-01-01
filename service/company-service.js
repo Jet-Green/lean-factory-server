@@ -601,7 +601,6 @@ module.exports = {
             if (Company.employees[i].email == email) {
                 Company.employees[i].isConfirmed = true
                 Company.employees[i].user = newVal.user
-                console.log(Company.employees[i]);
             }
         }
 
