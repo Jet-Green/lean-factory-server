@@ -7,10 +7,10 @@ module.exports = {
     async getCompany(req, res, next) {
         return res.json(await companyService.getCompany(req.query.company_id))
     },
-    addEmpls(req, res, next) {
+    async addEmpls(req, res, next) {
         try {
-            let result = companyService.addEmpls(req.body, req.query.company_id)
-            return res.json('OK')
+            let result = await companyService.addEmpls(req.body, req.query.company_id)
+            return res.json(result)
         } catch (error) {
             next(error)
         }

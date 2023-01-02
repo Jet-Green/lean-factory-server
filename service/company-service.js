@@ -553,16 +553,18 @@ module.exports = {
                 html: `<h2>Вас пригласили в компанию</h2> <p>Перейдите по ссылке, чтобы присоединиться</p> <a href="http://localhost:5100/registration?company_id=${companyIdentifier}">http://localhost:5100/registration?company_id=${companyIdentifier}</a>`
             }
 
-            let r = await mailer.sendMail(details)
+            try {
+                let r = await mailer.sendMail(details)
+            } catch (error) { }
         }
         let company = await CompanyModel.findOne({ identifier: 0 })
         let oldEmpls = company.employees
         let newEmpls = oldEmpls.concat(empls)
 
-        return CompanyModel.findOneAndUpdate({ identifier: 0 }, { $set: { employees: newEmpls } })
+        return CompanyModel.findOneAndUpdate({ identifier: 0 }, { $set: { employees: newEmpls } }, { new: true })
     },
     async deleteEmpl(empl_company) {
-        return CompanyModel.findOneAndUpdate({ identifier: empl_company.company }, { $pull: { employees: { email: empl_company.email } } })
+        return CompanyModel.findOneAndUpdate({ identifier: empl_company.company }, { $pull: { employees: { _id: empl_company._id } } }, { new: true })
     },
     async updateEmpl(empl_company) {
         let { employee, company } = empl_company
