@@ -6,7 +6,6 @@ const UserSchema = new Schema({
     password: { type: String, required: true },
     fullname: { type: String, required: true },
     roles: { type: [String], ref: "Role" },
-    toFix: { type: Array },
     company: { type: String, required: true, default: "0", ref: "Company" },
 })
 

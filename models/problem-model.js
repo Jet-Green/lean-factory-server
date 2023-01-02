@@ -1,8 +1,8 @@
 const { Schema, model } = require('mongoose');
 
 const ProblemSchema = new Schema({
-    photos: { type: Array, required: true, default: [] },
-    commentToPhoto: { type: String, required: true, default: '' },
-    place: { type: String, required: true }
+    photos: { type: Array, default: [] },
+    commentToPhoto: { type: String, default: '' },
+    place: { type: String, }
 })
-module.exports = model('Problem', ProblemSchema);
+module.exports = { ProblemModel: model('Problem', ProblemSchema), ProblemSchema }

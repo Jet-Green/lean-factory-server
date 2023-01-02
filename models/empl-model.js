@@ -1,4 +1,5 @@
 const { Schema, model } = require('mongoose');
+const { ProblemSchema } = require('./problem-model')
 
 const EmplSchema = new Schema({
     email: { type: String, default: '' },
@@ -7,6 +8,7 @@ const EmplSchema = new Schema({
     emplName: String,
     place: String,
     user: { type: Object, default: null },
+    toFix: { type: [ProblemSchema], default: [] }
 })
 
 module.exports = {

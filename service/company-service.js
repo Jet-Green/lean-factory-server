@@ -2,6 +2,7 @@ const CompanyModel = require('../models/company-model')
 const { EmplModel } = require('../models/empl-model')
 const UserModel = require('../models/user-model')
 const RoleModel = require('../models/role-model')
+const { ProblemModel } = require('../models/problem-model')
 const mailer = require('../middleware/mailer')
 
 const UserService = require('../service/user-service')
@@ -543,6 +544,17 @@ module.exports = {
     async getCompany(id) {
         const c = await CompanyModel.findOne({ identifier: id })
         return c
+    },
+    async reportProblem(problem, company_id) {
+
+        let company = await CompanyModel.findOne({ identifier: company_id })
+        for (let e of company.employees) {
+            if (e.place.place == e.place || e.place.emplName == e.emplName) {
+                e.toFix.push(problem)
+            }
+        }
+
+        return company.save()
     },
     async addEmpls(empls, companyIdentifier = 0) {
         for (let e of empls) {
