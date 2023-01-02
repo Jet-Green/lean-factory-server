@@ -8,7 +8,7 @@ const EmplSchema = new Schema({
     emplName: String,
     place: String,
     user: { type: Object, default: null },
-    toFix: { type: [ProblemSchema], default: [] }
+    reportsToFix: { type: [ProblemSchema], default: [] }
 })
 
 module.exports = {

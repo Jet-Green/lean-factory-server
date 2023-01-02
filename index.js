@@ -12,7 +12,7 @@ const authRouter = require('./routers/auth-router')
 const companyRouter = require('./routers/company-router')
 
 app.use(cors({
-    origin: [process.env.CLIENT_URL],
+    origin: [process.env.CLIENT_URL, 'http://192.168.0.104:5100'],
     credentials: true
 }))
 

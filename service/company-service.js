@@ -549,8 +549,8 @@ module.exports = {
 
         let company = await CompanyModel.findOne({ identifier: company_id })
         for (let e of company.employees) {
-            if (e.place.place == e.place || e.place.emplName == e.emplName) {
-                e.toFix.push(problem)
+            if (problem.place.place == e.place || problem.place.emplName == e.emplName) {
+                e.reportsToFix.push(problem)
             }
         }
 
