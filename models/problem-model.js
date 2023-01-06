@@ -5,6 +5,8 @@ const ProblemSchema = new Schema({
     commentToPhoto: { type: String, default: '' },
     place: Object,
     sentToFix: { type: Boolean, default: false },
+    // type title and emplName
+    type: Object,
     dateStart: String
 })
 module.exports = { ProblemModel: model('Problem', ProblemSchema), ProblemSchema }

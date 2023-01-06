@@ -71,13 +71,37 @@ for (let d of data) {
     let a = d.split(',')
     res.push({
         place: a[0],
+        problemType: null,
         emplName: a[1],
         isConfirmed: false,
-        // _id: data.indexOf(d) + 456522,
         email: '',
         roles: ['territory_resp'],
-        user: null
+        user: null,
+        reportsToFix: []
     })
 }
 
-console.log(res);
+let problemTypesRaw = `Неисправность в электричестве/Казанцев А.В.
+Неисправность оборудования в части КИП и А/Невоструев А.В.
+Неисправность оборудования в части электричества/Казанцев А.В.
+Неисправность оборудования в механической части/Горбушин С.В.
+Неисправность отопления, вентиляции, водопровода, канализации, сварочные работы./Ведерников В.И.
+Ремонт наружный или внутренний зданий./Бузиков И.Х.
+Уличная территория производственной площадки/Вершинин А.С.
+Ремонтное оборудование автомобилей/Юферев Д.А.`
+
+problemTypesRaw = problemTypesRaw.split('\n')
+
+let problemTypes = []
+for (let p of problemTypesRaw) {
+    let f = p.split('/')
+
+    problemTypes.push({
+        type: f[0],
+        emplName: f[1],
+    })
+}
+
+console.log(problemTypes);
+
+// console.log(res);
