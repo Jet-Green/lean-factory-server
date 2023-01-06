@@ -4,6 +4,7 @@ const UserModel = require('../models/user-model')
 const RoleModel = require('../models/role-model')
 const { ProblemModel } = require('../models/problem-model')
 const { ProblemTypeModel } = require('../models/problem-type-model')
+const { PlaceModel } = require('../models/place-model')
 const mailer = require('../middleware/mailer')
 
 // data
@@ -15,15 +16,38 @@ module.exports = {
     async serviceFunc(req, res, next) {
         return res.json(await UserModel.find({}))
     },
-    async startApp() {
+    async startApp(req, res) {
         let defaultUser = new RoleModel()
         let superUser = new RoleModel({ value: 'admin' })
         await defaultUser.save()
         await superUser.save()
 
         await ProblemTypeModel.insertMany(rawProblemTypes)
-
         let problemTypes = await ProblemTypeModel.find({})
+
+        let places = []
+        for (let p of employees) {
+            places.push({
+                emplName: p.emplName,
+                place: p.place
+            })
+            p.place = []
+        }
+
+        await PlaceModel.insertMany(places)
+
+        let newplaces = await PlaceModel.find({})
+
+        for (let e of employees) {
+            for (let p of newplaces) {
+                if (p.emplName == e.emplName && e.place) {
+                    e.place.push(p)
+                    p.empl = e
+                    console.log('\n\n\n\n', p, e);
+                    await p.save()
+                }
+            }
+        }
 
         const ADMIN_EMAIL = 'admin@gmail.com'
         await UserService.registration(ADMIN_EMAIL, 'admin', 'ADMIN', '0')
@@ -88,6 +112,7 @@ module.exports = {
                 problemTypes: problemTypesWithEmpl,
             })
         }
+        return res.json('ok')
     },
     async getCompany(id) {
         const c = await CompanyModel.findOne({ identifier: id })
