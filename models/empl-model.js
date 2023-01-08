@@ -8,8 +8,8 @@ const EmplSchema = new Schema({
     isConfirmed: { type: Boolean, default: false },
     roles: { type: Array, default: ['default_user'] },
     emplName: String,
-    place: { type: [PlaceSchema], default: null },
-    problemType: { type: [ProblemTypeSchema], default: [] },
+    place: { type: Array, default: null },
+    problemType: { type: Array, default: [] },
     user: { type: Object, default: null },
     reportsToFix: { type: [ProblemSchema], default: [] }
 })

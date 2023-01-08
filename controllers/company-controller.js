@@ -38,9 +38,9 @@ module.exports = {
             next(error)
         }
     },
-    startApp() {
+    startApp(req, res, next) {
         try {
-            companyService.startApp()
+            companyService.startApp(req, res, next)
         } catch (error) {
             console.log(error);
         }

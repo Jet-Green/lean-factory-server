@@ -16,7 +16,7 @@ module.exports = {
     async serviceFunc(req, res, next) {
         return res.json(await UserModel.find({}))
     },
-    async startApp(req, res) {
+    async startApp(req, res, next) {
         let defaultUser = new RoleModel()
         let superUser = new RoleModel({ value: 'admin' })
         await defaultUser.save()
@@ -26,12 +26,13 @@ module.exports = {
         let problemTypes = await ProblemTypeModel.find({})
 
         let places = []
-        for (let p of employees) {
+        for (let empl of employees) {
             places.push({
-                emplName: p.emplName,
-                place: p.place
+                emplName: empl.emplName,
+                place: empl.place
             })
-            p.place = []
+            empl.place = []
+            empl.problemType = []
         }
 
         await PlaceModel.insertMany(places)
@@ -41,9 +42,10 @@ module.exports = {
         for (let e of employees) {
             for (let p of newplaces) {
                 if (p.emplName == e.emplName && e.place) {
-                    e.place.push(p)
-                    p.empl = e
-                    console.log('\n\n\n\n', p, e);
+                    e.place.push(p._id)
+                    p.empl = e._id
+
+                    // console.log('\n\n\n\n place::', p, '\n\n\n\n employee:: ', e);
                     await p.save()
                 }
             }
@@ -61,8 +63,8 @@ module.exports = {
         for (let e of newEmpls) {
             for (let p of problemTypes) {
                 if (e.emplName == p.emplName) {
-                    e.problemType.push(p)
-                    p.empl = e
+                    e.problemType.push(p._id)
+                    p.empl = e._id
                     if (!('problem_fix' in e.roles)) {
                         e.roles.push('problem_fix')
                     }
@@ -76,20 +78,20 @@ module.exports = {
                     emplName: p.emplName,
                 })
                 if (em) {
-                    em.problemType.push(p)
+                    em.problemType.push(p._id)
                     await em.save()
-                    p.empl = em
+                    p.empl = em._id
                 } else {
                     await EmplModel.create({
                         roles: ['problem_fix'],
                         emplName: p.emplName,
-                        problemType: p
+                        problemType: [p._id]
                     })
                     let newEm = await EmplModel.findOne({
                         emplName: p.emplName,
                     })
 
-                    p.empl = newEm
+                    p.empl = newEm._id
                 }
             }
         }
