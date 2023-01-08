@@ -55,7 +55,7 @@ module.exports = {
         await UserService.registration(ADMIN_EMAIL, 'admin', 'ADMIN', '0')
         const adminUser = await UserModel.findOne({ email: ADMIN_EMAIL })
         await EmplModel.insertMany([
-            { email: ADMIN_EMAIL, isConfirmed: true, user: adminUser, roles: ['admin'] },
+            { email: ADMIN_EMAIL, isConfirmed: true, user: adminUser, roles: ['admin'], emplName: 'Admin' },
             ...employees
         ])
         let newEmpls = await EmplModel.find({})
