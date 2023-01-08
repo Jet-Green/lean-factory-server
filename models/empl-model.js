@@ -1,7 +1,5 @@
 const { Schema, model } = require('mongoose');
 const { ProblemSchema } = require('./problem-model')
-const { ProblemTypeSchema } = require('./problem-type-model')
-const { PlaceSchema } = require('./place-model')
 
 const EmplSchema = new Schema({
     email: { type: String, default: '' },

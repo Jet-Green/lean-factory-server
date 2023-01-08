@@ -6,6 +6,7 @@ const router = Router()
 router.get('/service', companyController.serviceFunc)
 router.get('/start-app', companyController.startApp)
 
+router.get('/get-full-empl', companyController.getFullEmpl)
 router.post('/report-problem', companyController.reportProblem)
 router.post('/add-empls', companyController.addEmpls)
 router.post('/delete-empl', companyController.deleteEmpl)

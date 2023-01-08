@@ -116,8 +116,30 @@ module.exports = {
         }
         return res.json('ok')
     },
-    async getCompany(id) {
-        const c = await CompanyModel.findOne({ identifier: id })
+    async getFullEmpl(_id) {
+        const empl = await EmplModel.findById(_id)
+        const emplPlaces = empl._doc.place
+        const emplProblemTypes = empl._doc.problemType
+
+        let fullEmpl = Object.assign({}, empl._doc)
+        // get places
+        if (emplPlaces.length > 0) {
+            for (let i = 0; i < emplPlaces.length; i++) {
+                // console.log(emplPlaces[i]);
+                fullEmpl.place[i] = await PlaceModel.findById(emplPlaces[i])
+            }
+        }
+        // get problem types
+        if (emplProblemTypes.length > 0) {
+            for (let i = 0; i < emplProblemTypes.length; i++) {
+                fullEmpl.problemType[i] = await ProblemTypeModel.findById(emplProblemTypes[i])
+            }
+        }
+
+        return fullEmpl
+    },
+    async getCompany(_id) {
+        const c = await CompanyModel.findOne({ identifier: _id })
         return c
     },
     async reportProblem(problem, company_id) {
