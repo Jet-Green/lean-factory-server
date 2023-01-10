@@ -13,6 +13,20 @@ const { rawProblemTypes, employees } = require('../data.js')
 const UserService = require('../service/user-service')
 
 module.exports = {
+    async sendProblemToFix(data) {
+        const { emplId, problemId } = data
+        console.log(data);
+
+        let employee = await EmplModel.findById(emplId)
+        let problem = await ProblemModel.findById(problemId)
+
+        return
+        problem.dateStart = Date.now()
+
+        employee.reportsToFix.push(problem)
+
+        return [employee.save(), problem.save()]
+    },
     async serviceFunc(req, res, next) {
         return res.json(await UserModel.find({}))
     },
@@ -145,6 +159,9 @@ module.exports = {
     async reportProblem(problem, company_id) {
 
         let company = await CompanyModel.findOne({ identifier: company_id })
+
+        await ProblemModel.create(problem)
+
         for (let e of company.employees) {
             if (problem.place.place == e.place || problem.place.emplName == e.emplName) {
                 e.reportsToFix.push(problem)

@@ -7,6 +7,8 @@ router.get('/service', companyController.serviceFunc)
 router.get('/start-app', companyController.startApp)
 
 router.get('/get-full-empl', companyController.getFullEmpl)
+
+router.post('/send-to-fix', companyController.sendProblemToFix)
 router.post('/report-problem', companyController.reportProblem)
 router.post('/add-empls', companyController.addEmpls)
 router.post('/delete-empl', companyController.deleteEmpl)

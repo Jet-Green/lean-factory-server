@@ -4,6 +4,9 @@ module.exports = {
     serviceFunc(req, res, next) {
         companyService.serviceFunc(req, res, next)
     },
+    async sendProblemToFix(req, res, next) {
+        res.json(await companyService.sendProblemToFix(req.body))
+    },
     async getFullEmpl(req, res, next) {
         return res.json(await companyService.getFullEmpl(req.query._id))
     },

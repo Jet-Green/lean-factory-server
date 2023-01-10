@@ -7,6 +7,7 @@ const ProblemSchema = new Schema({
     sentToFix: { type: Boolean, default: false },
     // type title and emplName
     type: Object,
-    dateStart: String
+    dateStart: String,
+    status: { type: String, default: 'created' }
 })
 module.exports = { ProblemModel: model('Problem', ProblemSchema), ProblemSchema }
