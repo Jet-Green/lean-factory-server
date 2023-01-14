@@ -1,4 +1,4 @@
-let data = `Участок очистки сточных вод	Волков Н.А.
+let emplData = `Участок очистки сточных вод	Волков Н.А.
 Усреднитель	Волков Н.А.
 Холодильник	Гаврилова С.С.
 Материальный склад № 7	Васильченко С.В.
@@ -62,23 +62,34 @@ let data = `Участок очистки сточных вод	Волков Н.
 Канализационная насосная станция	Ведерников В.И.
 Административный корпус	Вершинин А.С.`
 
-data = data.replaceAll('"', '')
-data = data.split('\n')
+emplData = emplData.replaceAll('"', '')
+emplData = emplData.split('\n')
 
 let res = []
 
-for (let d of data) {
-    let a = d.split('\t')
-    res.push({
-        place: a[0],
-        problemType: null,
-        emplName: a[1],
-        isConfirmed: false,
-        email: '',
-        roles: ['territory_resp'],
-        user: null,
-        reportsToFix: []
-    })
+for (let d of emplData) {
+    let splitted = d.split('\t')
+
+    let isntHere = true;
+
+    for (let i = 0; i < res.length; i++) {
+        if (res[i].emplName == splitted[1]) {
+            isntHere = false;
+        }
+    }
+
+    if (isntHere) {
+        res.push({
+            place: splitted[0],
+            problemType: null,
+            emplName: splitted[1],
+            isConfirmed: false,
+            email: '',
+            roles: ['territory_resp'],
+            user: null,
+            reportsToFix: []
+        })
+    }
 }
 
 let problemTypesRaw = `Неисправность в электричестве/Казанцев А.В.

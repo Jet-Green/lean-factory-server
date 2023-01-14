@@ -15,17 +15,23 @@ const UserService = require('../service/user-service')
 module.exports = {
     async sendProblemToFix(data) {
         const { emplId, problemId } = data
-        console.log(data);
 
-        let employee = await EmplModel.findById(emplId)
         let problem = await ProblemModel.findById(problemId)
+        let company = await CompanyModel.findOne({ identifier: '0' })
 
-        return
-        problem.dateStart = Date.now()
+        problem.dateStartFix = Date.now()
+        problem.status = 'sent_to_fix'
 
-        employee.reportsToFix.push(problem)
+        for (let e of company.employees) {
+            if (e._id == emplId) {
+                e.reportsToFix.push(problem)
+                console.log(e);
+            }
+        }
+        await company.save()
+        await problem.save()
 
-        return [employee.save(), problem.save()]
+        return 'ok'
     },
     async serviceFunc(req, res, next) {
         return res.json(await UserModel.find({}))
@@ -53,11 +59,11 @@ module.exports = {
 
         let newplaces = await PlaceModel.find({})
 
-        for (let e of employees) {
+        for (let empl of employees) {
             for (let p of newplaces) {
-                if (p.emplName == e.emplName && e.place) {
-                    e.place.push(p._id)
-                    p.empl = e._id
+                if (p.emplName == empl.emplName && empl.place) {
+                    empl.place.push(p._id)
+                    p.empl = empl._id
 
                     // console.log('\n\n\n\n place::', p, '\n\n\n\n employee:: ', e);
                     await p.save()
@@ -160,11 +166,11 @@ module.exports = {
 
         let company = await CompanyModel.findOne({ identifier: company_id })
 
-        await ProblemModel.create(problem)
+        const problemInDB = await ProblemModel.create(problem)
 
         for (let e of company.employees) {
             if (problem.place.place == e.place || problem.place.emplName == e.emplName) {
-                e.reportsToFix.push(problem)
+                e.reportsToFix.push(problemInDB)
             }
         }
 
@@ -193,27 +199,27 @@ module.exports = {
         return CompanyModel.findOneAndUpdate({ identifier: empl_company.company }, { $pull: { employees: { _id: empl_company._id } } }, { new: true })
     },
     async updateEmpl(empl_company) {
-        let { employee, company } = empl_company
+        let { employee, company: company_id } = empl_company
         if (!employee.isConfirmed) {
             // return CompanyModel.findOneAndUpdate({ identifier: company, 'employees.user._id': employee.user._id }, { $set: { 'employees.$': employee } })
             let details = {
                 from: 'qbit.mailing@gmail.com',
                 to: employee.email,
                 subject: 'Приглашение в Lean Factory',
-                html: `<h2>Вас пригласили в компанию</h2> <p>Перейдите по ссылке, чтобы присоединиться</p> <a href="http://localhost:5100/registration?company_id=${company}">http://localhost:5100/registration?company_id=${company}</a>`
+                html: `<h2>Вас пригласили в компанию</h2> <p>Перейдите по ссылке, чтобы присоединиться</p> <a href="http://localhost:5100/registration?company_id=${company_id}">http://localhost:5100/registration?company_id=${company_id}</a>`
             }
 
             let r = await mailer.sendMail(details)
         }
-        let c = await CompanyModel.findOne({ identifier: company })
+        let company = await CompanyModel.findOne({ identifier: company_id })
 
-        for (let i = 0; i < c.employees.length; i++) {
-            if (c.employees[i]._id == employee._id) {
-                c.employees[i] = employee
+        for (let i = 0; i < company.employees.length; i++) {
+            if (company.employees[i]._id == employee._id) {
+                company.employees[i] = employee
             }
         }
         // CompanyModel.findOneAndUpdate({ identifier: company, 'employees._id': employee._id }, { $set: { 'employees.$': employee } })
-        return c.save()
+        return await company.save()
     },
     createEmployee(userData) {
         const e = { email: userData.user.email, isConfirmed: true, user: userData.user }

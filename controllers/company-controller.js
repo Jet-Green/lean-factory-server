@@ -16,6 +16,7 @@ module.exports = {
     async reportProblem(req, res, next) {
         try {
             let result = await companyService.reportProblem(req.body, req.query.company_id)
+            return res.json(result)
         } catch (error) {
             next(error);
         }
