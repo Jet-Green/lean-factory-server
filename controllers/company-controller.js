@@ -8,14 +8,18 @@ module.exports = {
         res.json(await companyService.sendProblemToFix(req.body))
     },
     async getFullEmpl(req, res, next) {
-        return res.json(await companyService.getFullEmpl(req.query._id))
+        try {
+            return res.json(await companyService.getFullEmpl(req.query._id))
+        } catch (error) {
+            console.log(error);
+            next(error)
+        }
     },
     async getEmpls(req, res, next) {
         try {
             let { company_id } = req.query
             return res.json(await companyService.getEmpls(company_id))
         } catch (error) {
-            console.log(error);
             next(error)
         }
     },

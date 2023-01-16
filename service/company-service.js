@@ -85,21 +85,17 @@ module.exports = {
 
         let placesInDB = await PlaceModel.find({})
 
-        // places ids to empls and empls ids to places
+        // places ids to empls
         for (let empl of EMPLOYEES) {
             let oldPlaces = empl.places
             empl.places = []
             for (let placeInDB of placesInDB) {
                 if (placeInDB.emplName == empl.emplName && oldPlaces) {
                     empl.places.push(placeInDB._id)
-                    placeInDB.empl = empl._id
-
-                    // console.log('\n\n\n\n place::', p, '\n\n\n\n employee:: ', e);
-                    await placeInDB.save()
                 }
             }
         }
-        // places ids to empls and empls ids to places
+        // places ids to empls
 
         const ADMIN_EMAIL = 'admin@gmail.com'
         await UserService.registration(ADMIN_EMAIL, 'admin', 'ADMIN', '0')
@@ -109,7 +105,20 @@ module.exports = {
             ...EMPLOYEES
         ])
 
+        // empl ids to places
         let newEmplsFromDB = await EmplModel.find({})
+        let placesInDB2 = await PlaceModel.find({})
+
+        for (let empl of newEmplsFromDB) {
+            for (let placeInDB of placesInDB2) {
+                if (empl.emplName === placeInDB.emplName) {
+                    placeInDB.empl = empl._id
+
+                    await placeInDB.save()
+                }
+            }
+        }
+        // empl ids to places
 
         for (let empl of newEmplsFromDB) {
             for (let prType of prTypesFromDB) {
@@ -182,15 +191,17 @@ module.exports = {
     },
     async getFullEmpl(_id) {
         const empl = await EmplModel.findById(_id)
-        const emplPlaces = empl._doc.place
-        const emplProblemTypes = empl._doc.problemType
+        const emplPlaces = empl.places
+        const emplProblemTypes = empl.problemType
 
-        let fullEmpl = Object.assign({}, empl._doc)
+
+        let fullEmpl = Object.assign({}, empl)._doc
+
         // get places
         if (emplPlaces.length > 0) {
             for (let i = 0; i < emplPlaces.length; i++) {
                 // console.log(emplPlaces[i]);
-                fullEmpl.place[i] = await PlaceModel.findById(emplPlaces[i])
+                fullEmpl.places[i] = await PlaceModel.findById(emplPlaces[i])
             }
         }
         // get problem types
