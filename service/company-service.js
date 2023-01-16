@@ -8,7 +8,7 @@ const { PlaceModel } = require('../models/place-model')
 const mailer = require('../middleware/mailer')
 
 // data
-const { rawProblemTypes, employees } = require('../data.js')
+const { rawProblemTypes: RAW_PROBLEM_TYPES, employees: EMPLOYEES } = require('../data.js')
 
 const UserService = require('../service/user-service')
 
@@ -37,101 +37,125 @@ module.exports = {
         return res.json(await UserModel.find({}))
     },
     async startApp(req, res, next) {
+        // roles
         let defaultUser = new RoleModel()
         let superUser = new RoleModel({ value: 'admin' })
         await defaultUser.save()
         await superUser.save()
+        // roles
 
-        await ProblemTypeModel.insertMany(rawProblemTypes)
-        let problemTypes = await ProblemTypeModel.find({})
+        await ProblemTypeModel.insertMany(RAW_PROBLEM_TYPES)
+        let prTypesFromDB = await ProblemTypeModel.find({})
 
+        // places to DB
         let places = []
-        for (let empl of employees) {
-            places.push({
-                emplName: empl.emplName,
-                place: empl.place
-            })
-            empl.place = []
+        for (let empl of EMPLOYEES) {
+            for (let pl of empl.places) {
+                places.push({
+                    emplName: empl.emplName,
+                    place: pl
+                })
+            }
+            empl.places = []
             empl.problemType = []
         }
 
         await PlaceModel.insertMany(places)
+        // places to DB
 
-        let newplaces = await PlaceModel.find({})
+        let placesInDB = await PlaceModel.find({})
 
-        for (let empl of employees) {
-            for (let p of newplaces) {
-                if (p.emplName == empl.emplName && empl.place) {
-                    empl.place.push(p._id)
-                    p.empl = empl._id
+        // places ids to empls and empls ids to places
+        for (let empl of EMPLOYEES) {
+            let oldPlaces = empl.places
+            empl.places = []
+            for (let placeInDB of placesInDB) {
+                if (placeInDB.emplName == empl.emplName && oldPlaces) {
+                    empl.places.push(placeInDB._id)
+                    placeInDB.empl = empl._id
 
                     // console.log('\n\n\n\n place::', p, '\n\n\n\n employee:: ', e);
-                    await p.save()
+                    await placeInDB.save()
                 }
             }
         }
+        // places ids to empls and empls ids to places
 
         const ADMIN_EMAIL = 'admin@gmail.com'
         await UserService.registration(ADMIN_EMAIL, 'admin', 'ADMIN', '0')
         const adminUser = await UserModel.findOne({ email: ADMIN_EMAIL })
         await EmplModel.insertMany([
             { email: ADMIN_EMAIL, isConfirmed: true, user: adminUser, roles: ['admin'], emplName: 'Admin' },
-            ...employees
+            ...EMPLOYEES
         ])
-        let newEmpls = await EmplModel.find({})
 
-        for (let e of newEmpls) {
-            for (let p of problemTypes) {
-                if (e.emplName == p.emplName) {
-                    e.problemType.push(p._id)
-                    p.empl = e._id
-                    if (!('problem_fix' in e.roles)) {
-                        e.roles.push('problem_fix')
+        let newEmplsFromDB = await EmplModel.find({})
+
+        for (let empl of newEmplsFromDB) {
+            for (let prType of prTypesFromDB) {
+                if (empl.emplName == prType.emplName) {
+                    empl.problemType.push(prType._id)
+                    prType.empl = empl._id
+                    if (!('problem_fix' in empl.roles)) {
+                        empl.roles.push('problem_fix')
                     }
                 }
             }
         }
 
-        for (let p of problemTypes) {
-            if (!p.empl) {
-                let em = await EmplModel.findOne({
-                    emplName: p.emplName,
-                })
-                if (em) {
-                    em.problemType.push(p._id)
-                    await em.save()
-                    p.empl = em._id
-                } else {
-                    await EmplModel.create({
-                        roles: ['problem_fix'],
-                        emplName: p.emplName,
-                        problemType: [p._id]
-                    })
-                    let newEm = await EmplModel.findOne({
-                        emplName: p.emplName,
-                    })
+        // for (let prType of prTypesFromDB) {
+        //     if (!prType.empl) {
+        //         let empl = await EmplModel.findOne({
+        //             emplName: prType.emplName,
+        //         })
+        //         if (empl) {
+        //             empl.problemType.push(prType._id)
+        //             await empl.save()
+        //             prType.empl = empl._id
+        //         } else {
+        //             await EmplModel.create({
+        //                 roles: ['problem_fix'],
+        //                 emplName: prType.emplName,
+        //                 problemType: [prType._id]
+        //             })
+        //             let newEm = await EmplModel.findOne({
+        //                 emplName: prType.emplName,
+        //             })
 
-                    p.empl = newEm._id
-                }
-            }
-        }
+        //             prType.empl = newEm._id
+        //         }
+        //     }
+        // }
 
-        for (let e of newEmpls) {
+        // save all
+        for (let e of newEmplsFromDB) {
             await e.save()
         }
-        for (let p of problemTypes) {
+        for (let p of prTypesFromDB) {
             await p.save()
         }
+        // save all
 
         let emplsWithPr = await EmplModel.find({})
         let problemTypesWithEmpl = await ProblemTypeModel.find({})
+
+        // extract ids
+        let emplIds = []
+        let problemTypesIds = []
+        for (let e of emplsWithPr) {
+            emplIds.push(e._id)
+        }
+        for (let p of problemTypesWithEmpl) {
+            problemTypesIds.push(p._id)
+        }
+        // extract ids
 
         if (adminUser) {
             await CompanyModel.create({
                 identifier: 0,
                 companyName: 'Глазов Молоко',
-                employees: emplsWithPr,
-                problemTypes: problemTypesWithEmpl,
+                employees: emplIds,
+                problemTypes: problemTypesIds,
             })
         }
         return res.json('ok')

@@ -74,7 +74,7 @@ for (let i = 0; i < emplData.length; i++) {
 
     res.push({
         emplName: name,
-        place: [place],
+        places: [place],
         problemType: null,
         isConfirmed: false,
         email: '',
@@ -93,7 +93,7 @@ for (let i = 0; i < emplData.length; i++) {
         let currentPlace = s[0]
 
         if (currentName == name) {
-            res[res.length - 1].place.push(currentPlace)
+            res[res.length - 1].places.push(currentPlace)
             toSplice.push(j)
         }
     }

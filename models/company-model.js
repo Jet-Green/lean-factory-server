@@ -1,13 +1,12 @@
 const { Schema, model } = require('mongoose');
-const { EmplSchema } = require('./empl-model')
 const { ProblemTypeSchema } = require('./problem-type-model')
 
 const CompanySchema = new Schema({
     identifier: { type: String, required: true },
     companyName: { type: String, required: true },
     employees: {
-        type: [EmplSchema], required: true,
+        type: Array, required: true,
     },
-    problemTypes: { type: [ProblemTypeSchema], default: [] },
-},)
+    problemTypes: { type: Array, default: [] },
+})
 module.exports = model('Company', CompanySchema);
