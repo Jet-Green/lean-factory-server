@@ -67,30 +67,64 @@ emplData = emplData.split('\n')
 
 let res = []
 
-for (let d of emplData) {
-    let splitted = d.split('\t')
+for (let i = 0; i < emplData.length; i++) {
+    let splittedData = emplData[i].split('\t')
+    let name = splittedData[1]
+    let place = splittedData[0]
 
-    let isntHere = true;
+    res.push({
+        emplName: name,
+        place: [place],
+        problemType: null,
+        isConfirmed: false,
+        email: '',
+        roles: ['territory_resp'],
+        user: null,
+        reportsToFix: []
+    })
 
-    for (let i = 0; i < res.length; i++) {
-        if (res[i].emplName == splitted[1]) {
-            isntHere = false;
+    emplData.splice(i, 1)
+
+    let toSplice = []
+
+    for (let j = 0; j < emplData.length; j++) {
+        let s = emplData[j].split('\t')
+        let currentName = s[1]
+        let currentPlace = s[0]
+
+        if (currentName == name) {
+            res[res.length - 1].place.push(currentPlace)
+            toSplice.push(j)
         }
     }
-
-    if (isntHere) {
-        res.push({
-            place: splitted[0],
-            problemType: null,
-            emplName: splitted[1],
-            isConfirmed: false,
-            email: '',
-            roles: ['territory_resp'],
-            user: null,
-            reportsToFix: []
-        })
+    // i dont know, why it works
+    while (toSplice.length) {
+        emplData.splice(toSplice.pop(), 1);
     }
 }
+
+console.log(res);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 let problemTypesRaw = `Неисправность в электричестве/Казанцев А.В.
 Неисправность оборудования в части КИП и А/Невоструев А.В.
@@ -112,7 +146,4 @@ for (let p of problemTypesRaw) {
         emplName: f[1],
     })
 }
-
 // console.log(problemTypes);
-
-console.log(res);

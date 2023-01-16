@@ -32,9 +32,9 @@ module.exports = {
     ],
     employees: [
         {
-            place: 'Участок очистки сточных вод',
-            problemType: null,
             emplName: 'Волков Н.А.',
+            place: ['Участок очистки сточных вод', 'Усреднитель'],
+            problemType: null,
             isConfirmed: false,
             email: '',
             roles: ['territory_resp'],
@@ -42,19 +42,15 @@ module.exports = {
             reportsToFix: []
         },
         {
-            place: 'Холодильник',
-            problemType: null,
-            emplName: 'Гаврилова С.С.',
-            isConfirmed: false,
-            email: '',
-            roles: ['territory_resp'],
-            user: null,
-            reportsToFix: []
-        },
-        {
-            place: 'Материальный склад № 7',
-            problemType: null,
             emplName: 'Васильченко С.В.',
+            place: [
+                'Материальный склад № 7',
+                'Материальный склад № 8',
+                'Материальный склад',
+                'Материальный склад № 5',
+                'Склад № 1'
+            ],
+            problemType: null,
             isConfirmed: false,
             email: '',
             roles: ['territory_resp'],
@@ -62,19 +58,14 @@ module.exports = {
             reportsToFix: []
         },
         {
-            place: 'Токарная мастерская',
-            problemType: null,
-            emplName: 'Ведерников В.И.',
-            isConfirmed: false,
-            email: '',
-            roles: ['territory_resp'],
-            user: null,
-            reportsToFix: []
-        },
-        {
-            place: 'Трансформаторная подстанция ТП-15',
-            problemType: null,
             emplName: 'Казанцев А.В.',
+            place: [
+                'Трансформаторная подстанция ТП-15',
+                'Трансформаторная подстанция ТП-47',
+                'Трансформаторная подстанция РП-4',
+                'Электрощитовая к участку ледяной воды'
+            ],
+            problemType: null,
             isConfirmed: false,
             email: '',
             roles: ['territory_resp'],
@@ -82,19 +73,14 @@ module.exports = {
             reportsToFix: []
         },
         {
-            place: 'Раздевалка АХС',
-            problemType: null,
-            emplName: 'Вершинин А.С.',
-            isConfirmed: false,
-            email: '',
-            roles: ['territory_resp'],
-            user: null,
-            reportsToFix: []
-        },
-        {
-            place: 'Гараж легковых автомобилей',
-            problemType: null,
             emplName: 'Абуткин Р.Ш.',
+            place: [
+                'Гараж легковых автомобилей',
+                'Помещение для тех.обслуживания',
+                'Диспетчерская',
+                'Ангар для хранения автомобилей'
+            ],
+            problemType: null,
             isConfirmed: false,
             email: '',
             roles: ['territory_resp'],
@@ -102,9 +88,40 @@ module.exports = {
             reportsToFix: []
         },
         {
-            place: 'Склад СП ГПК СОМ',
+            emplName: 'Ведерников В.И.',
+            place: [
+                'Тепловой пункт',
+                'Токарная мастерская',
+                'Помещение прачечной',
+                'Градирни',
+                'Здание распредпункта',
+                'Воздуходувная компрессорная',
+                'Компрессорная АХУ',
+                'Блок подсобных помещений',
+                'Канализационная насосная станция'
+            ],
             problemType: null,
+            isConfirmed: false,
+            email: '',
+            roles: ['territory_resp'],
+            user: null,
+            reportsToFix: []
+        },
+        {
             emplName: 'Чинюк Э.В.',
+            place: [
+                'Склад СП ГПК СОМ',
+                'Участок по производству СП',
+                'Помещение ВВУ',
+                'Отделение баромембранных технологий',
+                'Водоподготовка СИП №3',
+                'Отделение хранения сыворотки',
+                'Отделение хранения молока',
+                'Приемка сыворотки',
+                'Участок нормализации',
+                'Приемка молока'
+            ],
+            problemType: null,
             isConfirmed: false,
             email: '',
             roles: ['territory_resp'],
@@ -112,9 +129,15 @@ module.exports = {
             reportsToFix: []
         },
         {
-            place: 'Теплогазогенераторная',
+            emplName: 'Вершинин А.С.',
+            place: [
+                'Здание АБК',
+                'Раздевалка АХС',
+                'Мелкооптовый магазин',
+                'Здание проходной',
+                'Административный корпус'
+            ],
             problemType: null,
-            emplName: 'Савин П. В.',
             isConfirmed: false,
             email: '',
             roles: ['territory_resp'],
@@ -122,9 +145,19 @@ module.exports = {
             reportsToFix: []
         },
         {
-            place: 'Цех по производству ЦМП и КМП №1,2',
-            problemType: null,
             emplName: 'Главатских Л.Л.',
+            place: [
+                'Цех по производству ЦМП и КМП №4',
+                'Цех по производству ЦМП и КМП №1,2',
+                'Цех по производству ЦМП и КМП №3',
+                'Цех по производству ЦМП и КМП №5',
+                'СИП-станция цех ЦМП №1,2',
+                'Склад вспом.материалов ЦМП № 1',
+                'Склад вспом.материалов ЦМП № 2',
+                'СИП-станция цех ЦМП № 3,4',
+                'СИП-станция цех ЦМП № 5'
+            ],
+            problemType: null,
             isConfirmed: false,
             email: '',
             roles: ['territory_resp'],
@@ -132,9 +165,17 @@ module.exports = {
             reportsToFix: []
         },
         {
-            place: 'Помещение для шиномонтажа',
-            problemType: null,
             emplName: 'Юферев Д.А.',
+            place: [
+                'Склад № 3',
+                'Помещение для шиномонтажа',
+                'Склад № 2',
+                'Ремонтный бокс № 3',
+                'Ремонтный бокс № 2',
+                'Ремонтный бокс № 1',
+                'Сварочный пост'
+            ],
+            problemType: null,
             isConfirmed: false,
             email: '',
             roles: ['territory_resp'],
