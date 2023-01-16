@@ -6,6 +6,7 @@ const { ProblemModel } = require('../models/problem-model')
 const { ProblemTypeModel } = require('../models/problem-type-model')
 const { PlaceModel } = require('../models/place-model')
 const mailer = require('../middleware/mailer')
+const ApiError = require('../exceptions/api-error');
 
 // data
 const { rawProblemTypes: RAW_PROBLEM_TYPES, employees: EMPLOYEES } = require('../data.js')
@@ -13,6 +14,25 @@ const { rawProblemTypes: RAW_PROBLEM_TYPES, employees: EMPLOYEES } = require('..
 const UserService = require('../service/user-service')
 
 module.exports = {
+    async getEmpls(company_id) {
+        if (typeof company_id != 'string') {
+            throw ApiError.BadRequest('Неправильный тип компании')
+        }
+
+        let company = await CompanyModel.findOne({ identifier: company_id })
+
+        if (!company) {
+            throw ApiError.BadRequest('Нет такой компании')
+        }
+
+        let emplsIds = company.employees
+        let empls = []
+        for (let id of emplsIds) {
+            empls.push(await EmplModel.findById(id))
+        }
+
+        return empls
+    },
     async sendProblemToFix(data) {
         const { emplId, problemId } = data
 

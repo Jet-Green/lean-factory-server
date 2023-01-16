@@ -10,6 +10,15 @@ module.exports = {
     async getFullEmpl(req, res, next) {
         return res.json(await companyService.getFullEmpl(req.query._id))
     },
+    async getEmpls(req, res, next) {
+        try {
+            let { company_id } = req.query
+            return res.json(await companyService.getEmpls(company_id))
+        } catch (error) {
+            console.log(error);
+            next(error)
+        }
+    },
     async getCompany(req, res, next) {
         return res.json(await companyService.getCompany(req.query.company_id))
     },
