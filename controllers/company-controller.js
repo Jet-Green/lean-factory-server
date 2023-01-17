@@ -18,6 +18,14 @@ module.exports = {
             next(error)
         }
     },
+    async getPlaces(req, res, next) {
+        try {
+            let { company_id } = req.query
+            return res.json(await companyService.getPlaces(company_id, req.body))
+        } catch (error) {
+            next(error)
+        }
+    },
     async getEmpls(req, res, next) {
         try {
             let { company_id } = req.query

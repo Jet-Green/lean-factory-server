@@ -14,6 +14,20 @@ const { rawProblemTypes: RAW_PROBLEM_TYPES, employees: EMPLOYEES } = require('..
 const UserService = require('../service/user-service')
 
 module.exports = {
+    async getPlaces(company_id, placesIds) {
+        if (typeof company_id != 'string') {
+            throw ApiError.BadRequest('Неправильный тип компании')
+        }
+
+        let places = []
+        for (let id of placesIds) {
+            let placeFromDB = await PlaceModel.findById(id)
+            places.push(placeFromDB)
+        }
+        console.log(places);
+
+        return places
+    },
     async getEmpls(company_id, emplsIds) {
         if (typeof company_id != 'string') {
             throw ApiError.BadRequest('Неправильный тип компании')
