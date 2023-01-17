@@ -8,5 +8,6 @@ const CompanySchema = new Schema({
         type: Array, required: true,
     },
     problemTypes: { type: Array, default: [] },
+    places: { type: Array, default: [] },
 })
 module.exports = model('Company', CompanySchema);

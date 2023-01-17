@@ -14,21 +14,15 @@ const { rawProblemTypes: RAW_PROBLEM_TYPES, employees: EMPLOYEES } = require('..
 const UserService = require('../service/user-service')
 
 module.exports = {
-    async getEmpls(company_id) {
+    async getEmpls(company_id, emplsIds) {
         if (typeof company_id != 'string') {
             throw ApiError.BadRequest('Неправильный тип компании')
         }
 
-        let company = await CompanyModel.findOne({ identifier: company_id })
-
-        if (!company) {
-            throw ApiError.BadRequest('Нет такой компании')
-        }
-
-        let emplsIds = company.employees
         let empls = []
         for (let id of emplsIds) {
-            empls.push(await EmplModel.findById(id))
+            let emplFromDB = await EmplModel.findById(id)
+            empls.push(emplFromDB)
         }
 
         return empls
@@ -84,18 +78,20 @@ module.exports = {
         // places to DB
 
         let placesInDB = await PlaceModel.find({})
-
-        // places ids to empls
+        let placesIds = []
+        // places ids to empls and placesIds into array
         for (let empl of EMPLOYEES) {
             let oldPlaces = empl.places
             empl.places = []
             for (let placeInDB of placesInDB) {
                 if (placeInDB.emplName == empl.emplName && oldPlaces) {
                     empl.places.push(placeInDB._id)
+                    placesIds.push(placeInDB._id)
                 }
             }
         }
-        // places ids to empls
+        // places ids to empls and placesIds into array
+
 
         const ADMIN_EMAIL = 'admin@gmail.com'
         await UserService.registration(ADMIN_EMAIL, 'admin', 'ADMIN', '0')
@@ -185,6 +181,7 @@ module.exports = {
                 companyName: 'Глазов Молоко',
                 employees: emplIds,
                 problemTypes: problemTypesIds,
+                places: placesIds
             })
         }
         return res.json('ok')
@@ -270,23 +267,9 @@ module.exports = {
 
         return await EmplModel.findOneAndUpdate({ _id: newEmpl._id, company: company_id }, { $set: newEmpl })
     },
-    createEmployee(userData) {
+    async updateCompanyEmpl(userData) {
         const e = { email: userData.user.email, isConfirmed: true, user: userData.user }
-        return EmplModel.create(e)
-    },
-    async updateCompanyEmpl(newVal) {
-        let email = newVal.email;
-        let company = newVal.user.company;
 
-        let Company = await CompanyModel.findOne({ identifier: company })
-
-        for (let i = 0; i < Company.employees.length; i++) {
-            if (Company.employees[i].email == email) {
-                Company.employees[i].isConfirmed = true
-                Company.employees[i].user = newVal.user
-            }
-        }
-
-        return await Company.save()
+        return await EmplModel.findOneAndUpdate({ email: e.email }, { $set: { user: e.user, isConfirmed: true } })
     }
 }

@@ -5,20 +5,23 @@ module.exports = {
         companyService.serviceFunc(req, res, next)
     },
     async sendProblemToFix(req, res, next) {
-        res.json(await companyService.sendProblemToFix(req.body))
+        try {
+            res.json(await companyService.sendProblemToFix(req.body))
+        } catch (error) {
+            newct(error)
+        }
     },
     async getFullEmpl(req, res, next) {
         try {
             return res.json(await companyService.getFullEmpl(req.query._id))
         } catch (error) {
-            console.log(error);
             next(error)
         }
     },
     async getEmpls(req, res, next) {
         try {
             let { company_id } = req.query
-            return res.json(await companyService.getEmpls(company_id))
+            return res.json(await companyService.getEmpls(company_id, req.body))
         } catch (error) {
             next(error)
         }

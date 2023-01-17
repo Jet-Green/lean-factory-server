@@ -35,11 +35,7 @@ module.exports = {
 
             const userData = await UserService.registration(email, password, fullname, company)
 
-            if (company > "-1") {
-                const employee = await CompanyService.createEmployee(userData)
-
-                const updatedCompany = await CompanyService.updateCompanyEmpl(employee)
-            }
+            const updatedEmpl = await CompanyService.updateCompanyEmpl(userData)
 
             // добавить флаг secure: true чтобы активировать https
             res.cookie('refreshToken', userData.refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });

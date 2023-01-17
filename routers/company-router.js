@@ -7,7 +7,7 @@ router.get('/service', companyController.serviceFunc)
 router.get('/start-app', companyController.startApp)
 
 router.get('/get-full-empl', companyController.getFullEmpl)
-router.get('/get-employees', companyController.getEmpls)
+router.post('/get-employees', companyController.getEmpls)
 
 
 router.post('/send-to-fix', companyController.sendProblemToFix)
