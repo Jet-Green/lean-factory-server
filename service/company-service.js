@@ -254,27 +254,21 @@ module.exports = {
         return CompanyModel.findOneAndUpdate({ identifier: empl_company.company }, { $pull: { employees: { _id: empl_company._id } } }, { new: true })
     },
     async updateEmpl(empl_company) {
-        let { employee, company: company_id } = empl_company
-        if (!employee.isConfirmed) {
+        let { employee: newEmpl, company: company_id } = empl_company
+
+        if (!newEmpl.isConfirmed) {
             // return CompanyModel.findOneAndUpdate({ identifier: company, 'employees.user._id': employee.user._id }, { $set: { 'employees.$': employee } })
             let details = {
                 from: 'qbit.mailing@gmail.com',
-                to: employee.email,
+                to: newEmpl.email,
                 subject: 'Приглашение в Lean Factory',
                 html: `<h2>Вас пригласили в компанию</h2> <p>Перейдите по ссылке, чтобы присоединиться</p> <a href="http://localhost:5100/registration?company_id=${company_id}">http://localhost:5100/registration?company_id=${company_id}</a>`
             }
 
             let r = await mailer.sendMail(details)
         }
-        let company = await CompanyModel.findOne({ identifier: company_id })
 
-        for (let i = 0; i < company.employees.length; i++) {
-            if (company.employees[i]._id == employee._id) {
-                company.employees[i] = employee
-            }
-        }
-        // CompanyModel.findOneAndUpdate({ identifier: company, 'employees._id': employee._id }, { $set: { 'employees.$': employee } })
-        return await company.save()
+        return await EmplModel.findOneAndUpdate({ _id: newEmpl._id, company: company_id }, { $set: newEmpl })
     },
     createEmployee(userData) {
         const e = { email: userData.user.email, isConfirmed: true, user: userData.user }
