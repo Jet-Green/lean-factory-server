@@ -14,31 +14,64 @@ const { rawProblemTypes: RAW_PROBLEM_TYPES, employees: EMPLOYEES } = require('..
 const UserService = require('../service/user-service')
 
 module.exports = {
+    async getFullReport() {
+
+    },
+    async getReports(reportsIds) {
+        if (!reportsIds.length) return []
+        let query = []
+        for (let rid of reportsIds) {
+            query.push({
+                _id: rid,
+            })
+        }
+        let reportsFromDB = await ProblemModel.find({ $or: query })
+        // let placesIds = []
+        // for (let report of reportsFromDB) {
+        //     placesIds.push(report.placeId)
+        // }
+
+        // let placesFromDB = await this.getPlaces("0", placesIds)
+
+        // for (let place of placesFromDB) {
+        //     for (let report of reportsFromDB) {
+        //         if (place._id == report.placeId) {
+        //             report.place = place
+        //         }
+        //     }
+        // }
+        // console.log(reportsFromDB);
+
+        return reportsFromDB
+    },
     async getPlaces(company_id, placesIds) {
         if (typeof company_id != 'string') {
             throw ApiError.BadRequest('Неправильный тип компании')
         }
 
-        let places = []
-        for (let id of placesIds) {
-            let placeFromDB = await PlaceModel.findById(id)
-            places.push(placeFromDB)
+        let query = []
+        for (let pid of placesIds) {
+            query.push({
+                _id: pid,
+            })
         }
 
-        return places
+        return await PlaceModel.find({ $or: query })
     },
     async getEmpls(company_id, emplsIds) {
         if (typeof company_id != 'string') {
             throw ApiError.BadRequest('Неправильный тип компании')
         }
 
-        let empls = []
-        for (let id of emplsIds) {
-            let emplFromDB = await EmplModel.findById(id)
-            empls.push(emplFromDB)
+
+        let query = []
+        for (let eid of emplsIds) {
+            query.push({
+                _id: eid,
+            })
         }
 
-        return empls
+        return await EmplModel.find({ $or: query })
     },
     async sendProblemToFix(data) {
         const { emplId, problemId } = data
@@ -236,8 +269,6 @@ module.exports = {
                 emplInDB.reportsToFix.push(problemInDB._id)
             }
         }
-
-        console.log(emplInDB);
 
         return emplInDB.save()
     },

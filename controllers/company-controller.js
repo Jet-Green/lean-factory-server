@@ -4,11 +4,29 @@ module.exports = {
     serviceFunc(req, res, next) {
         companyService.serviceFunc(req, res, next)
     },
+    async getFullReport(req, res, next) {
+        try {
+            let report = await companyService.getFullReport(req.query._id)
+
+            return res.json(report)
+        } catch (error) {
+            next(error)
+        }
+    },
+    async getReports(req, res, next) {
+        try {
+            let reportsFromDB = await companyService.getReports(req.body)
+            return res.json(reportsFromDB)
+        } catch (error) {
+            console.log(error);
+            next(error)
+        }
+    },
     async sendProblemToFix(req, res, next) {
         try {
             res.json(await companyService.sendProblemToFix(req.body))
         } catch (error) {
-            newct(error)
+            next(error)
         }
     },
     async getFullEmpl(req, res, next) {

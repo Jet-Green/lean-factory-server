@@ -9,6 +9,8 @@ router.get('/start-app', companyController.startApp)
 router.get('/get-full-empl', companyController.getFullEmpl)
 router.post('/get-employees', companyController.getEmpls)
 router.post('/get-places', companyController.getPlaces)
+router.post('/get-reports', companyController.getReports)
+router.get('/get-full-report', companyController.getFullReport)
 
 
 router.post('/send-to-fix', companyController.sendProblemToFix)
