@@ -3,12 +3,8 @@ const { Schema, model } = require('mongoose');
 const ProblemSchema = new Schema({
     photos: { type: Array, default: [] },
     commentToPhoto: { type: String, default: '' },
-    place: Object,
-    sentToFix: { type: Boolean, default: false },
-    // type title and emplName
-    type: Object,
-    dateStart: String,
-    dateStartFix: String,
-    status: { type: String, default: 'created' }
+    placeId: String,
+    // dates of start and end, last status, userId
+    actions: { type: [], default: [] },
 })
 module.exports = { ProblemModel: model('Problem', ProblemSchema), ProblemSchema }

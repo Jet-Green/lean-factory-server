@@ -24,7 +24,6 @@ module.exports = {
             let placeFromDB = await PlaceModel.findById(id)
             places.push(placeFromDB)
         }
-        console.log(places);
 
         return places
     },
@@ -229,18 +228,18 @@ module.exports = {
         return c
     },
     async reportProblem(problem, company_id) {
-
-        let company = await CompanyModel.findOne({ identifier: company_id })
-
+        let emplInDB = await EmplModel.findOne({ company: company_id, _id: problem.actions[0].respEmpl })
         const problemInDB = await ProblemModel.create(problem)
 
-        for (let e of company.employees) {
-            if (problem.place.place == e.place || problem.place.emplName == e.emplName) {
-                e.reportsToFix.push(problemInDB)
+        for (let placeId of emplInDB.places) {
+            if (placeId == problem.placeId) {
+                emplInDB.reportsToFix.push(problemInDB._id)
             }
         }
 
-        return company.save()
+        console.log(emplInDB);
+
+        return emplInDB.save()
     },
     async addEmpls(empls, companyIdentifier = 0) {
         for (let e of empls) {

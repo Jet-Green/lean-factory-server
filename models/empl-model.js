@@ -1,5 +1,4 @@
 const { Schema, model } = require('mongoose');
-const { ProblemSchema } = require('./problem-model')
 
 const EmplSchema = new Schema({
     email: { type: String, default: '' },
@@ -9,7 +8,7 @@ const EmplSchema = new Schema({
     places: { type: Array, default: null },
     problemType: { type: Array, default: [] },
     user: { type: Object, default: null },
-    reportsToFix: { type: [ProblemSchema], default: [] }
+    reportsToFix: { type: [], default: [] }
 })
 
 module.exports = {
