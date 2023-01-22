@@ -14,8 +14,42 @@ const { rawProblemTypes: RAW_PROBLEM_TYPES, employees: EMPLOYEES } = require('..
 const UserService = require('../service/user-service')
 
 module.exports = {
-    async getFullReport() {
+    async getProblemTypes(company_id) {
+        if (!company_id) throw ApiError.BadRequest('Пустой company_id')
 
+        let companyFromDB = await CompanyModel.findOne({ identifier: company_id })
+
+        let problemTypesIdsFromDB = companyFromDB.problemTypes
+
+        let query = []
+        for (let pid of problemTypesIdsFromDB) {
+            query.push({
+                _id: pid,
+            })
+        }
+
+        return ProblemTypeModel.find({ $or: query })
+    },
+    async getFullProblem(_id) {
+        if (!_id) {
+            throw ApiError.BadRequest('_id пустой')
+        }
+
+        let problemFromDB = await ProblemModel.findById(_id)
+
+        if (!problemFromDB) throw ApiError.BadRequest('Нет такой проблемы')
+
+        let fullProblem = Object.assign({}, problemFromDB._doc)
+
+        // need to add full PLACE
+        let { placeId } = problemFromDB
+
+        let placeFromDB = await PlaceModel.findById(placeId)
+
+
+        fullProblem.fullPlace = placeFromDB
+
+        return fullProblem
     },
     async getReports(reportsIds) {
         if (!reportsIds.length) return []
@@ -74,22 +108,21 @@ module.exports = {
         return await EmplModel.find({ $or: query })
     },
     async sendProblemToFix(data) {
-        const { emplId, problemId } = data
+        const { problemId, action } = data
 
-        let problem = await ProblemModel.findById(problemId)
-        let company = await CompanyModel.findOne({ identifier: '0' })
+        let problemFromDB = await ProblemModel.findById(problemId)
+        let employeesFromDB = await EmplModel.find({ company: '0' })
 
-        problem.dateStartFix = Date.now()
-        problem.status = 'sent_to_fix'
+        problemFromDB.actions.push(action)
 
-        for (let e of company.employees) {
-            if (e._id == emplId) {
-                e.reportsToFix.push(problem)
-                console.log(e);
+        for (let empl of employeesFromDB) {
+            if (empl._id == action.respEmpl) {
+                empl.reportsToFix.push(problemFromDB._id)
+                empl.save()
             }
         }
-        await company.save()
-        await problem.save()
+
+        await problemFromDB.save()
 
         return 'ok'
     },
