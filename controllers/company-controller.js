@@ -4,6 +4,14 @@ module.exports = {
     serviceFunc(req, res, next) {
         companyService.serviceFunc(req, res, next)
     },
+    async fixProblem(req, res, next) {
+        try {
+            return res.json(await companyService.fixProblem(req.query.problem_id))
+        } catch (error) {
+            // console.log(error);
+            next(error)
+        }
+    },
     async getFullProblem(req, res, next) {
         try {
             return res.json(await companyService.getFullProblem(req.query._id))

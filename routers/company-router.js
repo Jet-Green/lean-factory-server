@@ -15,6 +15,7 @@ router.post('/get-reports', companyController.getReports)
 router.get('/get-problem-types', companyController.getProblemTypes)
 
 router.post('/send-to-fix', companyController.sendProblemToFix)
+router.get('/fix-problem', companyController.fixProblem)
 router.post('/report-problem', companyController.reportProblem)
 router.post('/add-empls', companyController.addEmpls)
 router.post('/delete-empl', companyController.deleteEmpl)

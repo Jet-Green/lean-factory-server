@@ -14,6 +14,9 @@ const { rawProblemTypes: RAW_PROBLEM_TYPES, employees: EMPLOYEES } = require('..
 const UserService = require('../service/user-service')
 
 module.exports = {
+    async fixProblem(problemId) {
+        return ProblemModel.findByIdAndUpdate(problemId, { $push: { actions: { status: 'fixed', date: Date.now() } } })
+    },
     async getProblemTypes(company_id) {
         if (!company_id) throw ApiError.BadRequest('Пустой company_id')
 
