@@ -9,5 +9,6 @@ const CompanySchema = new Schema({
     },
     problemTypes: { type: Array, default: [] },
     places: { type: Array, default: [] },
+    hierarchy: { type: Array, default: [] },
 })
 module.exports = model('Company', CompanySchema);

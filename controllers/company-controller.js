@@ -100,9 +100,9 @@ module.exports = {
             next(error)
         }
     },
-    startApp(req, res, next) {
+    async startApp(req, res, next) {
         try {
-            companyService.startApp(req, res, next)
+            await companyService.startApp(req, res, next)
         } catch (error) {
             console.log(error);
         }

@@ -9,7 +9,7 @@ const mailer = require('../middleware/mailer')
 const ApiError = require('../exceptions/api-error');
 
 // data
-const { rawProblemTypes: RAW_PROBLEM_TYPES, employees: EMPLOYEES } = require('../data.js')
+const { rawProblemTypes: RAW_PROBLEM_TYPES, employees: EMPLOYEES, hierarchy: HIERARCHY } = require('../data.js')
 
 const UserService = require('../service/user-service')
 
@@ -196,6 +196,30 @@ module.exports = {
                 }
             }
         }
+
+        for (let emplH of HIERARCHY) {
+            for (let emplDB of newEmplsFromDB) {
+                if (emplH.emplName == emplDB.emplName) {
+                    emplH._id = emplDB._id
+
+                    for (let down of emplH.down) {
+                        for (let emplDB2 of newEmplsFromDB) {
+                            if (down.emplName == emplDB2.emplName) {
+                                down._id = emplDB2._id
+                            }
+                        }
+                    }
+
+                    for (let up of emplH.up) {
+                        for (let emplDB2 of newEmplsFromDB) {
+                            if (up.emplName == emplDB2.emplName) {
+                                up._id = emplDB2._id
+                            }
+                        }
+                    }
+                }
+            }
+        }
         // empl ids to places
 
         for (let empl of newEmplsFromDB) {
@@ -263,7 +287,8 @@ module.exports = {
                 companyName: 'Глазов Молоко',
                 employees: emplIds,
                 problemTypes: problemTypesIds,
-                places: placesIds
+                places: placesIds,
+                hierarchy: HIERARCHY
             })
         }
         return res.json('ok')

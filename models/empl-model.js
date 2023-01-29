@@ -8,7 +8,8 @@ const EmplSchema = new Schema({
     places: { type: Array, default: null },
     problemType: { type: Array, default: [] },
     user: { type: Object, default: null },
-    reportsToFix: { type: [], default: [] }
+    reportsToFix: { type: [], default: [] },
+    hierarchy: { type: Object, default: null },
 })
 
 module.exports = {

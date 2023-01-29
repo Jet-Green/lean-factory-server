@@ -1,4 +1,60 @@
 module.exports = {
+    hierarchy: [
+        {
+            emplName: 'Пальшин В.В.',
+            down: [
+                { emplName: 'Глушков А.Б.', _id: null },
+                { emplName: 'Лебедев И.П.', _id: null },
+                { emplName: 'Абуткин Р.Ш.', _id: null }
+            ],
+            up: []
+        },
+        {
+            emplName: 'Глушков А.Б.',
+            down: [{ emplName: 'Лебедев И.П.', _id: null }, { emplName: 'Казанцев А.В.', _id: null }, { emplName: 'Невоструев А.В.', _id: null }, { emplName: 'Ведерников В.И.', _id: null }, { emplName: 'Бузиков И.Х.', _id: null }],
+            up: [{ emplName: 'Пальшин В.В.', _id: null }]
+        },
+        {
+            emplName: 'Абуткин Р.Ш.',
+            down: [{ emplName: 'Юферев Д.А.', _id: null }],
+            up: [{ emplName: 'Пальшин В.В.', _id: null }]
+        },
+        {
+            emplName: 'Казанцев А.В.',
+            down: [],
+            up: [{ emplName: 'Глушков А.Б.', _id: null }, { emplName: 'Пальшин В.В.', _id: null }]
+        },
+        {
+            emplName: 'Невоструев А.В.',
+            down: [],
+            up: [{ emplName: 'Глушков А.Б.', _id: null }, { emplName: 'Пальшин В.В.', _id: null }]
+        },
+        {
+            emplName: 'Горбушин С.В.',
+            down: [],
+            up: [{ emplName: 'Лебедев И.П.', _id: null }, { emplName: 'Глушков А.Б.', _id: null }, { emplName: 'Пальшин В.В.', _id: null }]
+        },
+        {
+            emplName: 'Ведерников В.И.',
+            down: [],
+            up: [{ emplName: 'Глушков А.Б.', _id: null }, { emplName: 'Пальшин В.В.', _id: null }]
+        },
+        {
+            emplName: 'Бузиков И.Х.',
+            down: [],
+            up: [{ emplName: 'Глушков А.Б.', _id: null }, { emplName: 'Пальшин В.В.', _id: null }]
+        },
+        {
+            emplName: 'Вершинин А.С.',
+            down: [],
+            up: [{ emplName: 'Пальшин В.В.', _id: null }]
+        },
+        {
+            emplName: 'Юферев Д.А.',
+            down: [],
+            up: [{ emplName: 'Абуткин Р.Ш.', _id: null }, { emplName: 'Пальшин В.В.', _id: null }]
+        },
+    ],
     rawProblemTypes: [
         { type: 'Неисправность в электричестве', emplName: 'Казанцев А.В.' },
         {
@@ -32,10 +88,72 @@ module.exports = {
     ],
     employees: [
         {
+            emplName: 'Пальшин В.В.',
+            problemType: null,
+            isConfirmed: false,
+            roles: ['admin'],
+            places: [],
+            email: 'admin@gmail.com',
+            user: null,
+            reportsToFix: []
+        },
+        {
+            emplName: 'Невоструев А.В.',
+            problemType: null,
+            isConfirmed: false,
+            roles: ['territory_resp'],
+            places: [],
+            email: '',
+            user: null,
+            reportsToFix: []
+        },
+        {
+            emplName: 'Горбушин С.В.',
+            problemType: null,
+            isConfirmed: false,
+            roles: ['territory_resp'],
+            places: [],
+            email: '',
+            user: null,
+            reportsToFix: []
+        },
+        {
+            emplName: 'Лебедев И.П.',
+            problemType: null,
+            isConfirmed: false,
+            roles: [],
+            places: [],
+            email: '',
+            user: null,
+            reportsToFix: []
+        },
+        {
+            emplName: 'Бузиков И.Х.',
+            problemType: null,
+            isConfirmed: false,
+            places: [],
+            roles: [],
+            email: '',
+            user: null,
+            reportsToFix: []
+        },
+        {
+            emplName: 'Глушков А.Б.',
+            problemType: null,
+            isConfirmed: false,
+            places: [],
+            roles: [],
+            email: '',
+            user: null,
+            reportsToFix: []
+        },
+        {
             emplName: 'Волков Н.А.',
             places: ['Участок очистки сточных вод', 'Усреднитель'],
             problemType: null,
             isConfirmed: false,
+            places: [],
+            roles: [],
             email: '',
             roles: ['territory_resp'],
             user: null,
