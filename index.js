@@ -6,6 +6,7 @@ const app = express()
 const mongoose = require('mongoose')
 const cookieParser = require('cookie-parser')
 const errorMiddleware = require('./middleware/error-middleware')
+const setupScheludes = require('./schelude/main.js')
 
 // routers
 const authRouter = require('./routers/auth-router')
@@ -48,6 +49,6 @@ function mongoConnect() {
         console.log('mongo connected')
     });
 }
-
+setupScheludes()
 startServer()
 mongoConnect()
