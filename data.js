@@ -88,16 +88,6 @@ module.exports = {
     ],
     employees: [
         {
-            emplName: 'Пальшин В.В.',
-            problemType: null,
-            isConfirmed: false,
-            roles: ['admin'],
-            places: [],
-            email: 'admin@gmail.com',
-            user: null,
-            reportsToFix: []
-        },
-        {
             emplName: 'Невоструев А.В.',
             problemType: null,
             isConfirmed: false,

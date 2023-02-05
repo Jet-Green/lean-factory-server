@@ -179,7 +179,7 @@ module.exports = {
         await UserService.registration(ADMIN_EMAIL, 'admin', 'ADMIN', '0')
         const adminUser = await UserModel.findOne({ email: ADMIN_EMAIL })
         await EmplModel.insertMany([
-            { email: ADMIN_EMAIL, isConfirmed: true, user: adminUser, roles: ['admin'], emplName: 'Admin' },
+            { email: ADMIN_EMAIL, isConfirmed: true, user: adminUser, roles: ['admin'], emplName: 'Пальшин В.В.' },
             ...EMPLOYEES
         ])
 
@@ -214,9 +214,16 @@ module.exports = {
                         for (let emplDB2 of newEmplsFromDB) {
                             if (up.emplName == emplDB2.emplName) {
                                 up._id = emplDB2._id
+
                             }
                         }
                     }
+                    emplDB.hierarchy = {
+                        up: emplH.up,
+                        down: emplH.down
+                    }
+
+                    await emplDB.save()
                 }
             }
         }
