@@ -15,7 +15,7 @@ module.exports = {
     },
     async fixProblem(req, res, next) {
         try {
-            return res.json(await companyService.fixProblem(req.query.problem_id))
+            return res.json(await companyService.fixProblem(req.query.problem_id, req.query.comment))
         } catch (error) {
             // console.log(error);
             next(error)

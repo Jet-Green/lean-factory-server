@@ -42,8 +42,8 @@ module.exports = {
 
         return links
     },
-    async fixProblem(problemId) {
-        return ProblemModel.findByIdAndUpdate(problemId, { $push: { actions: { status: 'fixed', date: Date.now() } } })
+    async fixProblem(problemId, comment) {
+        return ProblemModel.findByIdAndUpdate(problemId, { $push: { actions: { status: 'fixed', date: Date.now(), comment } } })
     },
     async getProblemTypes(company_id) {
         if (!company_id) throw ApiError.BadRequest('Пустой company_id')
