@@ -14,6 +14,34 @@ const { rawProblemTypes: RAW_PROBLEM_TYPES, employees: EMPLOYEES, hierarchy: HIE
 const UserService = require('../service/user-service')
 
 module.exports = {
+    async uploadFilesToBucket(files) {
+        let EasyYandexS3 = require('easy-yandex-s3').default;
+
+        // Указываем аутентификацию в Yandex Object Storage
+        let s3 = new EasyYandexS3({
+            auth: {
+                accessKeyId: process.env.YC_KEY_ID,
+                secretAccessKey: process.env.YC_SECRET,
+            },
+            Bucket: process.env.YC_BUCKET_NAME, // Название бакета
+            debug: false, // Дебаг в консоли
+        });
+
+        let links = []
+        let buffers = []
+
+        for (let file of files) {
+            buffers.push({ buffer: file.buffer });    // Буфер загруженного файла
+        }
+
+        let uploadResult = await s3.Upload(buffers, '/files/');
+
+        for (let upl of uploadResult) {
+            links.push(upl.Location)
+        }
+
+        return links
+    },
     async fixProblem(problemId) {
         return ProblemModel.findByIdAndUpdate(problemId, { $push: { actions: { status: 'fixed', date: Date.now() } } })
     },

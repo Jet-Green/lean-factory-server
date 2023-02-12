@@ -1,5 +1,6 @@
 const Router = require('express').Router;
 const companyController = require('../controllers/company-controller')
+let multer = require('multer');
 
 const router = Router()
 
@@ -14,9 +15,11 @@ router.post('/get-places', companyController.getPlaces)
 router.post('/get-reports', companyController.getReports)
 router.get('/get-problem-types', companyController.getProblemTypes)
 
+router.post('/upload-problem-photos', multer().any(), companyController.uploadProblemPhotos)
+router.post('/report-problem', companyController.reportProblem)
+
 router.post('/send-to-fix', companyController.sendProblemToFix)
 router.get('/fix-problem', companyController.fixProblem)
-router.post('/report-problem', companyController.reportProblem)
 router.post('/add-empls', companyController.addEmpls)
 router.post('/delete-empl', companyController.deleteEmpl)
 router.post('/update-empl', companyController.updateEmpl)
