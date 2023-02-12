@@ -68,6 +68,9 @@ module.exports = {
 
         let problemFromDB = await ProblemModel.findById(_id)
 
+        if (!problemFromDB._id)
+            throw ApiError.BadRequest('Нет проблемы с таким _id')
+
         if (!problemFromDB) throw ApiError.BadRequest('Нет такой проблемы')
 
         let fullProblem = Object.assign({}, problemFromDB._doc)
