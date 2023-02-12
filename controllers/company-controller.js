@@ -4,6 +4,13 @@ module.exports = {
     serviceFunc(req, res, next) {
         companyService.serviceFunc(req, res, next)
     },
+    async deleteProblem(req, res, next) {
+        try {
+            res.json(await companyService.deleteProblem(req.query))
+        } catch (error) {
+            next(error)
+        }
+    },
     async uploadProblemPhotos(req, res, next) {
         try {
             // upload to yc bucket

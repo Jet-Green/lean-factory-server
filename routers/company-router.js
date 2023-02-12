@@ -18,6 +18,7 @@ router.get('/get-problem-types', companyController.getProblemTypes)
 router.post('/upload-problem-photos', multer().any(), companyController.uploadProblemPhotos)
 router.post('/report-problem', companyController.reportProblem)
 
+router.get('/delete-problem', companyController.deleteProblem)
 router.post('/send-to-fix', companyController.sendProblemToFix)
 router.get('/fix-problem', companyController.fixProblem)
 router.post('/add-empls', companyController.addEmpls)

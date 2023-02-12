@@ -42,6 +42,14 @@ module.exports = {
 
         return links
     },
+    async deleteProblem(query) {
+        let { problem_id, empl_id } = query
+        console.log(query);
+        return [
+            await ProblemModel.findByIdAndUpdate(problem_id, { $push: { actions: { status: 'deleted', date: Date.now() } } }),
+            await EmplModel.updateMany({}, { $pull: { reportsToFix: { $eq: problem_id } } })
+        ]
+    },
     async fixProblem(problemId, comment) {
         return ProblemModel.findByIdAndUpdate(problemId, { $push: { actions: { status: 'fixed', date: Date.now(), comment } } })
     },
