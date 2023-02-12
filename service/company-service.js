@@ -42,6 +42,47 @@ module.exports = {
 
         return links
     },
+    async getReportsToExcel(emplsIds) {
+        let query = []
+        for (let eid of emplsIds) {
+            query.push({
+                _id: eid,
+            })
+        }
+
+        const empls = await EmplModel.find({ $or: query })
+
+        let reportsIds = []
+        for (let e of empls) {
+            reportsIds.push(...e.reportsToFix)
+        }
+
+        let q = []
+        for (let rid of reportsIds) {
+            q.push({
+                _id: rid,
+            })
+        }
+
+        let pr = await ProblemModel.find({ $or: q })
+
+        let result = []
+
+        for (let problem of pr) {
+            result.push({
+                commentToPhoto: problem.commentToPhoto,
+                actions: problem.actions
+            })
+        }
+
+        for (let i = 0; i < pr.length; i++) {
+            let place = await PlaceModel.findById(pr[i].placeId)
+            result[i].placeName = place.place
+            result[i].respEmplName = place.emplName
+        }
+
+        return result
+    },
     async deleteProblem(query) {
         let { problem_id, empl_id } = query
         console.log(query);

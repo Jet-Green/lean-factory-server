@@ -4,6 +4,13 @@ module.exports = {
     serviceFunc(req, res, next) {
         companyService.serviceFunc(req, res, next)
     },
+    async getReportsToExcel(req, res, next) {
+        try {
+            res.json(await companyService.getReportsToExcel(req.body))
+        } catch (error) {
+            next(error)
+        }
+    },
     async deleteProblem(req, res, next) {
         try {
             res.json(await companyService.deleteProblem(req.query))
