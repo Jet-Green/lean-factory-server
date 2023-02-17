@@ -6,7 +6,7 @@ const { EmplModel } = require('../models/empl-model.js')
 
 module.exports = function setupScheludes() {
     // ADD CHECKING PROBLEMS
-    const checkProblemsJob = schedule.scheduleJob('1 * * * * *', async () => { // run every hour at minute 1
+    const checkProblemsJob = schedule.scheduleJob('1 * * * *', async () => { // run every hour at minute 1
         let allProblems = await ProblemModel.find({})
 
         for (let PROBLEM of allProblems) {
