@@ -7,10 +7,15 @@ const mongoose = require('mongoose')
 const cookieParser = require('cookie-parser')
 const errorMiddleware = require('./middleware/error-middleware')
 const setupScheludes = require('./schelude/main.js')
+const history = require('connect-history-api-fallback');
 
 // routers
 const authRouter = require('./routers/auth-router')
 const companyRouter = require('./routers/company-router')
+
+
+app.use(history())
+
 
 app.use(cors({
     origin: [process.env.CLIENT_URL, 'http://192.168.0.104:5100'],
@@ -24,6 +29,7 @@ app.use(cookieParser())
 app.use('/auth', authRouter)
 app.use('/company', companyRouter)
 
+app.use(express.static('dist'))
 
 // use error middleware last
 app.use(errorMiddleware)
