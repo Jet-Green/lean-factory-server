@@ -499,3 +499,35 @@ module.exports = {
         { emplName: 'Анастасия М', places: ['16 школа'], roles: ['territory_resp'], }
     ]
 }
+
+let data = [
+    { emplName: 'Данил Л', places: ['16 школа'], roles: ['territory_resp'], },
+    { emplName: 'Степан С', places: ['16 школа'], roles: ['territory_resp'], },
+    { emplName: 'Федя Д', places: ['16 школа'], roles: ['territory_resp'], },
+    { emplName: 'Андрей К', places: ['16 школа'], roles: ['territory_resp'], },
+    { emplName: 'Сергей К', places: ['16 школа'], roles: ['territory_resp'], },
+    { emplName: 'Никита Ч', places: ['16 школа'], roles: ['territory_resp'], },
+
+
+    { emplName: 'Екатерина Б', places: ['16 школа'], roles: ['territory_resp'], },
+    { emplName: 'Кристина Р', places: ['16 школа'], roles: ['territory_resp'], },
+    { emplName: 'Екатерина Ч', places: ['16 школа'], roles: ['territory_resp'], },
+    { emplName: 'Екатерина К', places: ['16 школа'], roles: ['territory_resp'], },
+    { emplName: 'Дарья Л', places: ['16 школа'], roles: ['territory_resp'], },
+    { emplName: 'Арина К', places: ['16 школа'], roles: ['territory_resp'], },
+    { emplName: 'Анна Перфилова', places: ['16 школа'], roles: ['territory_resp'], },
+    { emplName: 'Александра Е', places: ['16 школа'], roles: ['territory_resp'], },
+    { emplName: 'Любовь Т', places: ['16 школа'], roles: ['territory_resp'], },
+    { emplName: 'Анна Прокудина', places: ['16 школа'], roles: ['territory_resp'], },
+    { emplName: 'Костя Фаткин', places: ['16 школа'], roles: ['territory_resp'], },
+    { emplName: 'Андрей П', places: ['16 школа'], roles: ['territory_resp'], },
+    { emplName: 'Виктор', places: ['16 школа'], roles: ['territory_resp'], },
+    { emplName: 'Андрей Б', places: ['16 школа'], roles: ['territory_resp'], },
+    { emplName: 'Влад К', places: ['16 школа'], roles: ['territory_resp'], },
+    { emplName: 'Анастасия В', places: ['16 школа'], roles: ['territory_resp'], },
+    { emplName: 'Лиля', places: ['16 школа'], roles: ['territory_resp'], },
+    { emplName: 'Анастасия М', places: ['16 школа'], roles: ['territory_resp'], }
+]
+for (let d of data) {
+    console.log(d.emplName);
+}
