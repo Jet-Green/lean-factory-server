@@ -228,7 +228,7 @@ module.exports = {
             for (let pl of empl.places) {
                 places.push({
                     emplName: empl.emplName,
-                    place: pl
+                    place: pl + ' ' + empl.emplName
                 })
             }
             empl.places = []
@@ -254,11 +254,11 @@ module.exports = {
         // places ids to empls and placesIds into array
 
 
-        const ADMIN_EMAIL = 'admin@gmail.com'
+        const ADMIN_EMAIL = 'grishadzyin@gmail.com'
         await UserService.registration(ADMIN_EMAIL, 'admin', 'ADMIN', '0')
         const adminUser = await UserModel.findOne({ email: ADMIN_EMAIL })
         await EmplModel.insertMany([
-            { email: ADMIN_EMAIL, isConfirmed: true, user: adminUser, roles: ['admin'], emplName: 'Пальшин В.В.' },
+            { email: ADMIN_EMAIL, isConfirmed: true, user: adminUser, roles: ['admin'], emplName: 'Григорий Д' },
             ...EMPLOYEES
         ])
 
