@@ -6,9 +6,8 @@ const { EmplModel } = require('../models/empl-model.js')
 
 module.exports = function setupScheludes() {
     // ADD CHECKING PROBLEMS
-    const checkProblemsJob = schedule.scheduleJob('1 * * * * *', async () => { // run every hour at minute 1
+    const checkProblemsJob = schedule.scheduleJob('1 * * * * *', async () => { // run every minute at second 1
         let allProblems = await ProblemModel.find({})
-
         for (let PROBLEM of allProblems) {
             let lastAction = PROBLEM.actions[PROBLEM.actions.length - 1]
             let emplWithTrueHierarchy;
@@ -24,7 +23,7 @@ module.exports = function setupScheludes() {
                         }
                     }
 
-                    if ((Date.now() - (lastAction.date / 1000 / 60 / 60).toFixed(0)) >= 0) {
+                    if ((Date.now() - (lastAction.date / 1000 / 60 / 60).toFixed(0)) >= 20) {
                         let firstRespEmpl = await EmplModel.findById(emplWithTrueHierarchy)
                         let nextRespEmpl = firstRespEmpl != null ? firstRespEmpl.hierarchy?.up[depth]?._id : null
 
@@ -44,7 +43,7 @@ module.exports = function setupScheludes() {
                         }
                     }
 
-                    if ((Date.now() - (lastAction.date / 1000 / 60 / 60).toFixed(0)) >= 0) {
+                    if ((Date.now() - (lastAction.date / 1000 / 60 / 60).toFixed(0)) >= 20) {
                         let firstRespEmpl = await EmplModel.findById(emplWithTrueHierarchy)
                         let nextRespEmpl = firstRespEmpl != null ? firstRespEmpl.hierarchy?.up[depth]?._id : null
 
