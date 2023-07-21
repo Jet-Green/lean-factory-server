@@ -191,7 +191,6 @@ module.exports = {
     },
     async sendProblemToFix(data) {
         const { problemId, action } = data
-
         let problemFromDB = await ProblemModel.findById(problemId)
         let employeesFromDB = await EmplModel.find({ company: '0' })
 

@@ -14,7 +14,7 @@ const authRouter = require('./routers/auth-router')
 const companyRouter = require('./routers/company-router')
 
 
-app.use(history())
+// app.use(history())
 
 
 app.use(cors({
